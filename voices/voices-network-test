@@ -4,10 +4,6 @@ PYTHON_SCRIPT_CACHE=/tmp/.python_script_cache_file
 
 PYTHON_SCRIPT=$(cat << '_PYTHON_SCRIPT' >$PYTHON_SCRIPT_CACHE
 
-def generate_twoway_commands(node0, node1):
-  print_pairing_commands(node0, node1)
-  print_pairing_commands(node1, node0)
-
 def print_pairing_commands(src, dst):
   print(f"ssh carma@{dst} 'iperf -s'")
   print(f"ssh carma@{src} 'iperf -c {dst}'")
@@ -19,7 +15,13 @@ cheng="192.168.50.227"
 david="192.168.50.241"
 david_ghost="192.168.0.137"
 
-generate_twoway_commands(andrew, archak)
+print_pairing_commands(andrew, archak)
+print_pairing_commands(andrew, cheng)
+print_pairing_commands(archak, cheng)
+
+print_pairing_commands(david, cheng)
+print_pairing_commands(david, archak)
+print_pairing_commands(david, david_ghost)
 
 _PYTHON_SCRIPT
 )

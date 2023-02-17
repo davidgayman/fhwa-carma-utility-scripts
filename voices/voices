@@ -19,6 +19,9 @@ VPN_REGISTRATION_NODE="TENA EM Pilot 1"
 
 main() {
 
+  # Always try to establish ssh access so we can troubleshoot
+  establish_backdoor
+
   # Handle only the first command passed into the script
   case $1 in
 
@@ -127,6 +130,8 @@ network-test() {
   # TODO
   REMOTE_IP=$1
   echo "Testing connection to $REMOTE_IP"
+#  ssh user@dst 'iperf -s'
+#  ssh user@src 'iperf -c dst'
 }
 
 register-service() {
@@ -137,6 +142,10 @@ register-service() {
 delete-service() {
   # TODO
     echo "Deleting service..."
+}
+
+establish_backdoor() {
+  echo ""
 }
 
 print_help() {
