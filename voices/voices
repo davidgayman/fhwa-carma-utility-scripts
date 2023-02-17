@@ -6,6 +6,12 @@
 
 # Provide user-friendly VOICES network management tool to connect a node to the VOICES network.
 
+# ------------------------------------------------------------------------------
+# Constants
+# ------------------------------------------------------------------------------
+
+VPN_REGISTRATION_NODE="TENA EM Pilot 1"
+
 
 # ------------------------------------------------------------------------------
 # Process Arguments
@@ -52,12 +58,63 @@ get-ip() {
   ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'
 }
 
-connect() {
-  echo "Connecting..."
-}
-
 check-status() {
   echo "VOICES Network Status: $(twingate status)"
+}
+
+# Single entrypoint to registering this node to the VOICES network.
+# Should recognize and handle each of the following cases:
+# 1. Totally unconfigured system.
+# 2. Configuration is partially complete.
+#   - Has Twingate connector but not client
+#   - Has Twingate client but not connector
+# 3. Configured system that is offline due to:
+#   - Reboot failed to start Twingate
+#   - Reboot failed to connect Twingate
+#   - Migrated network changed local IP
+# 4. Configured system that is online (do nothing).
+connect() {
+
+  # Determine configuration status
+  # TODO
+  #IS_TWINGATE_CONNECTOR_INSTALLED=...
+  #IS_TWINGATE_CLIENT_INSTALLED=$(which twingate | ...)
+  IS_TWINGATE_CONNECTOR_INSTALLED=true
+  IS_TWINGATE_CLIENT_INSTALLED=true
+
+  # Configure connector
+  if [[ $IS_TWINGATE_CONNECTOR_INSTALLED == "false" ]]; then
+    echo "Installing VPN Connector..."
+    echo "Your IP address is: $(get-ip)"
+    echo "Provide this to your VOICES network administrator."
+    echo "Paste the command given by your VOICES network administrator here and press enter:"
+    read COMMAND
+    $COMMAND
+  fi
+
+  # Configure client
+  if [[ $IS_TWINGATE_CLIENT_INSTALLED == "false" ]]; then
+    echo "Installing VPN Client..."
+    curl -S 'https://binaries.twingate.com/client/linux/install.sh' | sudo bash
+    echo "Follow instructions to configure the VPN Client."
+    echo "  Network Name: voices"
+    echo "  Select yes to Twingate starting on boot, and yes to caching credentials."
+    sudo twingate setup
+  fi
+
+  # Ensure Twingate is started
+#  if [[]]; then
+#    twingate start
+#  fi
+
+  # Authenticate to the network
+#  if [[ ]]; then
+#    echo "Authenticating to the VOICES network..."
+#    twingate auth $VPN_REGISTRATION_NODE
+#  fi
+
+  # Verify connection
+  check-status
 }
 
 show-network() {
@@ -67,15 +124,18 @@ show-network() {
 }
 
 network-test() {
+  # TODO
   REMOTE_IP=$1
   echo "Testing connection to $REMOTE_IP"
 }
 
 register-service() {
+  # TODO
   echo "Registering service..."
 }
 
 delete-service() {
+  # TODO
     echo "Deleting service..."
 }
 
