@@ -1,0 +1,109 @@
+#!/bin/bash
+
+# ------------------------------------------------------------------------------
+# Description
+# ------------------------------------------------------------------------------
+
+# Provide user-friendly VOICES network management tool to connect a node to the VOICES network.
+
+
+# ------------------------------------------------------------------------------
+# Process Arguments
+# ------------------------------------------------------------------------------
+
+main() {
+
+  # Handle only the first command passed into the script
+  case $1 in
+
+    get-ip) get-ip;;
+    connect) connect;;
+    check-status) check-status;;
+
+    show-network) show-network;;
+    network-test) network-test $2;;
+
+    register-service) register-service;;
+    delete-service) delete-service;;
+
+    help) print_help;;
+    --help) print_help;;
+    *) print_help;;
+
+  esac;
+
+  # Exit with code
+  exit 0
+}
+
+
+# ------------------------------------------------------------------------------
+# Implementation
+# ------------------------------------------------------------------------------
+
+
+
+# ------------------------------------------------------------------------------
+# Implementation
+# ------------------------------------------------------------------------------
+
+get-ip() {
+  # https://stackoverflow.com/a/49552792
+  ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'
+}
+
+connect() {
+  echo "Connecting..."
+}
+
+check-status() {
+  echo "VOICES Network Status: $(twingate status)"
+}
+
+show-network() {
+  echo "VOICES Network"
+  echo ""
+  twingate resources
+}
+
+network-test() {
+  REMOTE_IP=$1
+  echo "Testing connection to $REMOTE_IP"
+}
+
+register-service() {
+  echo "Registering service..."
+}
+
+delete-service() {
+    echo "Deleting service..."
+}
+
+print_help() {
+cat <<'_HELP_TEXT'
+
+voices <command> <args>
+
+Commands:
+  get-ip              Get the current IP address.
+  connect             Connect to the VOICES network.
+  check-status        Check the VOICES network connection status.
+
+  show-network        List the VOICES network nodes.
+  network-test <ip>   Verify connectivity to the IP address of a VOICES network node.
+
+  register-service    Install the VOICES network client onto the system as a service which will start automatically.
+  delete-service      Uninstall the VOICES network service.
+
+  --help              Print this help information.
+
+_HELP_TEXT
+}
+
+
+# ------------------------------------------------------------------------------
+# Run
+# ------------------------------------------------------------------------------
+
+# Execute the script with forward-declared functions
+main $@
