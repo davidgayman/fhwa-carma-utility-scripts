@@ -1,12 +1,27 @@
 #!/bin/bash
 
-export << PY
+PYTHON_SCRIPT_CACHE=/tmp/.python_script_cache_file
 
-import sys
-print(sys.argv[0])
-print(sys.argv[1])
-print(sys.argv[2])
-print(sys.argv[3])
+PYTHON_SCRIPT=$(cat << '_PYTHON_SCRIPT' >$PYTHON_SCRIPT_CACHE
 
-PY
+def generate_twoway_commands(node0, node1):
+  print_pairing_commands(node0, node1)
+  print_pairing_commands(node1, node0)
 
+def print_pairing_commands(src, dst):
+  print(f"ssh carma@{dst} 'iperf -s'")
+  print(f"ssh carma@{src} 'iperf -c {dst}'")
+
+andrew="192.168.0.230"
+archak="192.168.0.62"
+cheng="192.168.50.227"
+
+david="192.168.50.241"
+david_ghost="192.168.0.137"
+
+generate_twoway_commands(andrew, archak)
+
+_PYTHON_SCRIPT
+)
+
+python3 $PYTHON_SCRIPT_CACHE $@
