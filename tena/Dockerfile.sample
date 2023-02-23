@@ -1,0 +1,33 @@
+FROM ghcr.io/usdot-fhwa-stol/carma-builds:latest
+
+# Set up system
+ENV HOST_HOME=/home/carma
+ENV HOME=/home/carma
+
+# Install TENA dependencies
+ENV VUG_INSTALL_DIR=
+RUN apt-get install -y g++ make libxcb-xinerama0
+
+# Install TENA SDK
+ENV TENA_HOME=/opt/TENA
+ENV TENA_VERSION=6.0.9
+ENV TENA_PLATFORM=u2004-gcc9-64
+
+ENV MIDDLEWARE_SDK_DEBIAN_PKG=TENA-MiddlewareSDK-v6.0.9.A@Product@${TENA_PLATFORM}-d-va3bc16dc.deb
+COPY ${MIDDLEWARE_SDK_DEBIAN_PKG} ${HOME}/lib/
+RUN dpkg -i ${HOME}/lib/${MIDDLEWARE_SDK_DEBIAN_PKG}
+RUN echo "ls /opt/TENA"
+RUN ls /opt/TENA
+
+
+# Configure project
+COPY ./config                   ${HOME}/code/tena-adapters/scenario-publisher/config
+COPY ./src                      ${HOME}/code/tena-adapters/scenario-publisher/src
+COPY ./CMakeLists.txt           ${HOME}/code/tena-adapters/scenario-publisher/CMakeLists.txt
+COPY ./README.md                ${HOME}/code/tena-adapters/scenario-publisher/README.md
+COPY ./zip-src.sh               /home/ccarma/ode/tena-adapters/scenario-publisher/zip-src.sh
+WORKDIR                         ${HOME}/code/tena-adapters/scenario-publisher/cmake-build/
+
+# Build
+RUN cmake ../
+RUN make

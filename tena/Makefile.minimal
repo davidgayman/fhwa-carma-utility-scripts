@@ -1,0 +1,12 @@
+all:
+    # Compile
+    g++ -std=c++17 -pthread -I$(TENA_HOME)/$(TENA_VERSION)/include \
+        -DTENA_PLATFORM=$(TENA_PLATFORM) -D_REENTRANT -c app1.cpp -o app1.o
+
+    # Link
+    g++ -std=c++17 -pthread app1.o -L$(TENA_HOME)/lib \
+        -lTENA_Middleware-$(TENA_PLATFORM)-v$(TENA_VERSION) -o app1
+    rm app1.o
+
+clean:
+    rm -f app1 app1.o
