@@ -16,6 +16,9 @@ TENA_PLATFORM=u2004-gcc9-64-d
 TENA_VERSION=6.0.9
 VUG_INSTALL_DIR=/opt/TENA/lib
 
+# Build options
+N_JOBS=4
+
 # ------------------------------------------------------------------------------
 # Process Arguments
 # ------------------------------------------------------------------------------
@@ -51,14 +54,18 @@ main() {
 # ------------------------------------------------------------------------------
 
 install-tena() {
-  #
-  dpkg --force-overwrite -i
+  dpkg --force-overwrite -i 'TENA-StandardOMsSDK-v2.0.0/TENA-StandardOMsSDK-v2.0.0@Product@u2004-gcc9-64-d-v99ae11aa.deb'
+  dpkg --force-overwrite -i 'TENA-Console-v2.0.1/TENA-Console-v2.0.1@Product@u2004-gcc9-64-v244836f9.deb'
+  dpkg --force-overwrite -i 'TENA-MiddlewareSDK-v6.0.9.A/TENA-MiddlewareSDK-v6.0.9.A@Product@u2004-gcc9-64-d-va3bc16dc.deb'
+  dpkg --force-overwrite -i 'TENA-Canary-v1.0.13/TENA-Canary-v1.0.13@Product@u2004-gcc9-64-vdbd87712.deb'
 }
+
 
 install-tena-env() {
   # Register environment into user profile
   echo "source /opt/TENA/${TENA_VERSION}/scripts/tenaenv-${TENA_PLATFORM}-v${TENA_VERSION}.sh &>/dev/null" >>~/.bashrc
 }
+
 
 env-load() {
   source /opt/TENA/${TENA_VERSION}/scripts/tenaenv-${TENA_PLATFORM}-v${TENA_VERSION}.sh &>/dev/null
@@ -82,9 +89,24 @@ start-em() {
     -multicastProperties ${TENA_MULTICAST_ENDPOINT_IP}:${TENA_MULTICAST_ENDPOINT_PORT}
 }
 
+
 doc() {
-  # Determine if
+  DOC_ROOT_DIR=${TENA_HOME}/${TENA_VERSION}/doc
+  DOC_DOXYGEN_DIR=${DOC_ROOT_DIR}/doxygen
+  DOC_HTML_DIR=${DOC_ROOT_DIR}/html
+  DOC_HTML_INDEX=${DOC_HTML_DIR}/index.html
+  DOC_URL=file://${DOC_HTML_INDEX}
+
+  # Determine if html documentation exists, and generate if not present
+  if [[ ! -f ${DOC_HTML_INDEX} ]]; then
+    cd ${DOC_DOXYGEN_DIR} && make -j${N_JOBS} all
+  fi
+
+  # Launch in browser
+  echo "Open documentation in a web browswer at: ${DOC_URL}"
+  xdg-open ${DOC_URL}
 }
+
 
 print_help() {
 cat <<'_HELP_TEXT'
@@ -92,22 +114,15 @@ cat <<'_HELP_TEXT'
 voices <command> <args>
 
 Commands:
+  install-tena      Install the TENA system.
+  install-tena-env  Install the TENA environment variables.
 
+  env-load          Load TENA-related environment variables to enable development.
 
-  register-tena-commands
-  start-console
-  env-load
+  start-console     Start the TENA Console application.
   start-em          Start the TENA Execution Manager.
 
-  doc               d
-
-  d              d.
-  d              d.
-  d              d.
-  d              d.
-  d              d.
-  d              d.
-
+  doc               View the TENA SDK documentation.
   help              Print this help information.
 
 _HELP_TEXT
@@ -120,21 +135,5 @@ _HELP_TEXT
 
 # Execute the script with forward-declared functions
 main $@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
