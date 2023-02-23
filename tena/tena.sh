@@ -10,6 +10,11 @@
 # Constants
 # ------------------------------------------------------------------------------
 
+# Environment
+TENA_HOME=/opt/TENA
+TENA_PLATFORM=u2004-gcc9-64-d
+TENA_VERSION=6.0.9
+VUG_INSTALL_DIR=/opt/TENA/lib
 
 # ------------------------------------------------------------------------------
 # Process Arguments
@@ -20,10 +25,15 @@ main() {
   # Handle only the first command passed into the script
   case $1 in
 
-    register-tena-commands) register-tena-commands;;
-    start-console) start-console;;
+    install-tena) install;;
+    install-tena-env) install-tena-env;;
+
     env-load) env-load;;
+
+    start-console) start-console;;
     start-em) start-em;;
+
+    doc) doc;;
 
     help) print_help;;
     --help) print_help;;
@@ -40,11 +50,18 @@ main() {
 # Implementation
 # ------------------------------------------------------------------------------
 
-env-load() {
-  SOME_VERSION_INFO=u2004-gcc9-64-v6.0.9
-  source /opt/TENA/${TENA_VERSION}/scripts/tenaenv-${SOME_VERSION_INFO}.sh
+install-tena() {
+  #
+  dpkg --force-overwrite -i
+}
 
-  VUG_INSTALL_DIR=/opt/TENA/lib
+install-tena-env() {
+  # Register environment into user profile
+  echo "source /opt/TENA/${TENA_VERSION}/scripts/tenaenv-${TENA_PLATFORM}-v${TENA_VERSION}.sh &>/dev/null" >>~/.bashrc
+}
+
+env-load() {
+  source /opt/TENA/${TENA_VERSION}/scripts/tenaenv-${TENA_PLATFORM}-v${TENA_VERSION}.sh &>/dev/null
 }
 
 
@@ -55,7 +72,6 @@ start-console() {
 
 start-em() {
   # Start em from command line; easier to launch from the Console GUI
-  TENA_VERSION=6.0.9
   TENA_LISTEN_ENDPOINT_IP=
   TENA_LISTEN_ENDPOINT_PORT=
   TENA_MULTICAST_ENDPOINT_IP=
@@ -66,14 +82,25 @@ start-em() {
     -multicastProperties ${TENA_MULTICAST_ENDPOINT_IP}:${TENA_MULTICAST_ENDPOINT_PORT}
 }
 
+doc() {
+  # Determine if
+}
+
 print_help() {
 cat <<'_HELP_TEXT'
 
 voices <command> <args>
 
 Commands:
-  d              d.
-  d              d.
+
+
+  register-tena-commands
+  start-console
+  env-load
+  start-em          Start the TENA Execution Manager.
+
+  doc               d
+
   d              d.
   d              d.
   d              d.
@@ -81,7 +108,7 @@ Commands:
   d              d.
   d              d.
 
-  --help              Print this help information.
+  help              Print this help information.
 
 _HELP_TEXT
 }

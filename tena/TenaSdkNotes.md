@@ -32,3 +32,16 @@ Any access to a ManagedPtr may be invalidated by a manager between a validity ch
 
 
 
+# Specialized Operations
+
+## Define a point
+
+```
+        TENA::GeodeticSRF::ImmutableLocalClassPtr pWGS84srf(TENA::GeodeticSRF::create(TENA::RTCODE_WGS_1984_IDENTITY));
+        TENA::GeodeticPosition::ImmutableLocalClassPtr const geodeticPos(TENA::GeodeticPosition::create(
+            pWGS84srf,
+            latitudeInDegrees,
+            longitudeInDegrees,
+            heightAboveEllipsoidInMeters));
+```
+
