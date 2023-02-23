@@ -22,3 +22,4 @@ ECEF: Earth-Centered, Earth-Fixed
 LSTP: Local Spherical Tangent Plane
 RAE: Range, Azimuth, and Elevation
 POI: Point of Interest
+VUG:
