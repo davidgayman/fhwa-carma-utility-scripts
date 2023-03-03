@@ -29,9 +29,35 @@ int main() {
         break;
     }
 
+    // Register subscriptions
+    VUG::Configuration::Scenario::subscribe(
+            pSession,
+            pScenarioSubscription_,
+            false);
 
 
-# Specialized Operations
+    // Attach an observer to a subscription
+    VUG::Track::BSM::SubscriptionPtr pVUGTrackBSMSubscription(
+            new VUG::Track::BSM::Subscription( pruneExpiredStateChange ) );
+    bsmSubscription->addObserver(bsmAlertingObserver);
+
+
+
+
+//    When you're sending you store a X.
+//    When you're receiving you store a proxy.
+
+    while (1)
+    {
+        // Specialized Operations
+
+        // Grab all newly discovered SDO's
+        VUG::Track::BSM::SDOlist bsmProxies(
+                bsmSubscription->getDiscoveredSDOlist());
+
+        // Process all queued callbacks from the middleware. This exercises the subscriptions.
+        pSession->evokeMultipleCallbacks(microsecondsPerIteration);
+    }
 
     // Define a point
     TENA::GeodeticSRF::ImmutableLocalClassPtr pWGS84srf(TENA::GeodeticSRF::create(TENA::RTCODE_WGS_1984_IDENTITY));

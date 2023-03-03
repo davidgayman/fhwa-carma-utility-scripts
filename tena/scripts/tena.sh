@@ -11,13 +11,18 @@
 # ------------------------------------------------------------------------------
 
 # Environment
-TENA_HOME=/opt/TENA
+TENA_HOME=/home/carma/TENA
+#TENA_HOME=/opt/TENA
 TENA_PLATFORM=u2004-gcc9-64-d
-TENA_VERSION=6.0.9
+TENA_VERSION=6.0.8
 VUG_INSTALL_DIR=/opt/TENA/lib
 #VUG_INSTALL_DIR=/home/carma/code/stol/voices/tena-adapters/scenario-publisher/local-install
 BOOST_INCLUDEDIR=/usr/include/boost
 #BOOST_INCLUDEDIR=/home/carma/code/stol/voices/.../
+CARLA_HOME=/home/carma/CARLA
+BOOST_VERSION=TENA_boost_1.77.0.1_Library
+CMAKE_PREFIX_PATH="${TENA_HOME}/lib/cmake"
+BOOST_INCLUDEDIR=${TENA_HOME}/${BOOST_VERSION}/${TENA_VERSION}/include
 
 # Build options
 N_JOBS=4
@@ -82,6 +87,26 @@ install-tena-env() {
 
 env-load() {
   source /opt/TENA/${TENA_VERSION}/scripts/tenaenv-${TENA_PLATFORM}-v${TENA_VERSION}.sh &>/dev/null
+
+  echo "TENA_HOME=${TENA_HOME}"
+  echo "TENA_PLATFORM=${TENA_PLATFORM}"
+  echo "TENA_VERSION=${TENA_VERSION}"
+  echo "VUG_INSTALL_DIR=${VUG_INSTALL_DIR}"
+  echo "BOOST_INCLUDEDIR=${BOOST_INCLUDEDIR}"
+  echo "CARLA_HOME=${CARLA_HOME}"
+  echo "BOOST_VERSION=${BOOST_VERSION}"
+  echo "CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}"
+  echo "BOOST_INCLUDEDIR=${BOOST_INCLUDEDIR}"
+
+  export TENA_HOME
+  export TENA_PLATFORM
+  export TENA_VERSION
+  export VUG_INSTALL_DIR
+  export BOOST_INCLUDEDIR
+  export CARLA_HOME
+  export BOOST_VERSION
+  export CMAKE_PREFIX_PATH
+  export BOOST_INCLUDEDIR
 }
 
 
@@ -112,6 +137,8 @@ doc() {
 
   # Determine if html documentation exists, and generate if not present
   if [[ ! -f ${DOC_HTML_INDEX} ]]; then
+    sudo apt-get install -y doxygen
+    #sudo apt-get install -y dot  # No such package??
     cd ${DOC_DOXYGEN_DIR} && make -j${N_JOBS} all
   fi
 
