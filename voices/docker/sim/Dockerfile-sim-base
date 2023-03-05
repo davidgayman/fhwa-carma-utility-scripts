@@ -1,0 +1,1 @@
+FROM ghcr.io/usdot-fhwa-stol/carma-builds:latest

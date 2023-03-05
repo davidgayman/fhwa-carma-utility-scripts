@@ -2,6 +2,7 @@
 source bashbase.sh
 
 # Define the following in subscripts:
+# DOCKERFILE
 # IMAGE_NAME
 # CONTAINER_NAME
 # CONTAINER_RUN_OPTIONS
@@ -19,7 +20,8 @@ COMMAND_LIST += [
 ]
 
 build() {
-  docker build $IMAGE_NAME
+#  docker build $DOCKERFILE $IMAGE_NAME
+  docker build --force-rm --rm -f ./Dockerfile -t tena:carla .
 }
 
 #push() {

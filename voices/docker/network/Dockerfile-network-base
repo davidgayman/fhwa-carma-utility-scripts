@@ -1,0 +1,22 @@
+FROM ubuntu:20.04
+
+# Set up system environment
+ENV DEBIAN_FRONTEND="noninteractive" TZ="America/New_York"
+
+# Copy commands into the target
+COPY ../../scripts/* /opt/voices/
+ENV PATH=${PATH}:/opt/voices
+ENV PATH=${PATH}:/opt/voices/container-management
+ENV PATH=${PATH}:/opt/voices/process-management
+ENV PATH=${PATH}:/opt/voices/interfaces
+
+# Added to get python2 and python2-pip
+RUN add-apt-repository universe
+RUN apt update
+
+# Install pip for python2
+RUN apt-get install -y python2 curl openssl
+RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+RUN python2 get-pip.py
+
+WORKDIR ${HOME}

@@ -1,6 +1,8 @@
 #!/bin/bash
 source ../interfaces/container-management.sh
 
+DOCKERFILE=../../docker/
 IMAGE_NAME=
 CONTAINER_NAME=
 CONTAINER_RUN_OPTIONS=
+

@@ -8,14 +8,14 @@
 
 # Containers: Also enable passthrough builds
 - voices
-    - base image (`FROM UBUNTU`)
-    - voices-network: Adds network-tools
-    - voices-vpn
-    - tena-mw
-    - tena-monitor
-    - tena-adapters
+    - Dockerfile-network-base    base image (`FROM UBUNTU`)
+    - Dockerfile-network-tools   voices-network: Adds network-tools
+    - Dockerfile-network-vpn     voices-vpn
+    - Dockerfile-network-mw-framework   tena-mw
+    - Dockerfile-network-mw-monitor     tena-monitor
+    - Dockerfile-network-mw-adapters    tena-adapters
 - sim
-    - base image (`FROM UBUNTU`)
+    - Dockerfile-sim-base: Base image (`FROM UBUNTU`)
     - sim demo-2-siteA
     - sim demo-2-siteB
     - sim demo-2-siteC
