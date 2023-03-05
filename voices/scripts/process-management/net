@@ -1,2 +1,170 @@
 #!/bin/bash
 source ../interfaces/process-management.sh
+
+# ------------------------------------------------------------------------------
+# Description
+# ------------------------------------------------------------------------------
+
+# Provide user-friendly VOICES network management tool to connect a node to the VOICES network.
+
+# ------------------------------------------------------------------------------
+# Constants
+# ------------------------------------------------------------------------------
+
+VPN_REGISTRATION_NODE="TENA EM Pilot 1"
+
+COMMAND_LIST += [
+  "get-ip"              "Get the current IP address."
+  "connect"             "Connect to the VOICES network."
+  "check-status"        "Check the VOICES network connection status."
+
+  "show-network"        "List the VOICES network nodes."
+  "network-test <ip>"   "Verify connectivity to the IP address of a VOICES network node."
+
+  "register-service"    "Install the VOICES network client onto the system as a service which will start automatically."
+  "delete-service"      "Uninstall the VOICES network service."
+
+  "icmp-ping-test"      "Perform a pre-configured network test using ICMP ping to verify connectivity."
+]
+
+# ------------------------------------------------------------------------------
+# Lifecycle Functions
+# ------------------------------------------------------------------------------
+
+monitor() {
+  # Start up a set of monitoring tools in different windows or tabs, perhaps using a paneling solution.
+}
+
+# ------------------------------------------------------------------------------
+# Specialized Functions
+# ------------------------------------------------------------------------------
+
+
+get-ip() {
+  # https://stackoverflow.com/a/49552792
+  ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'
+}
+
+check-status() {
+  echo "VOICES Network Status: $(twingate status)"
+}
+
+# Single entrypoint to registering this node to the VOICES network.
+# Should recognize and handle each of the following cases:
+# 1. Totally unconfigured system.
+# 2. Configuration is partially complete.
+#   - Has Twingate connector but not client
+#   - Has Twingate client but not connector
+# 3. Configured system that is offline due to:
+#   - Reboot failed to start Twingate
+#   - Reboot failed to connect Twingate
+#   - Migrated network changed local IP
+# 4. Configured system that is online (do nothing).
+connect() {
+
+  # Determine configuration status
+  # TODO
+  #IS_TWINGATE_CONNECTOR_INSTALLED=...
+  #IS_TWINGATE_CLIENT_INSTALLED=$(which twingate | ...)
+  IS_TWINGATE_CONNECTOR_INSTALLED=true
+  IS_TWINGATE_CLIENT_INSTALLED=true
+
+  # Configure connector
+  if [[ $IS_TWINGATE_CONNECTOR_INSTALLED == "false" ]]; then
+    echo "Installing VPN Connector..."
+    echo "Your IP address is: $(get-ip)"
+    echo "Provide this to your VOICES network administrator."
+    echo "Paste the command given by your VOICES network administrator here and press enter:"
+    read COMMAND
+    $COMMAND
+  fi
+
+  # Configure client
+  if [[ $IS_TWINGATE_CLIENT_INSTALLED == "false" ]]; then
+    echo "Installing VPN Client..."
+    curl -S 'https://binaries.twingate.com/client/linux/install.sh' | sudo bash
+    echo "Follow instructions to configure the VPN Client."
+    echo "  Network Name: voices"
+    echo "  Select yes to Twingate starting on boot, and yes to caching credentials."
+    sudo twingate setup
+  fi
+
+  # Ensure Twingate is started
+#  if [[]]; then
+#    twingate start
+#  fi
+
+  # Authenticate to the network
+#  if [[ ]]; then
+#    echo "Authenticating to the VOICES network..."
+#    twingate auth $VPN_REGISTRATION_NODE
+#  fi
+
+  # Verify connection
+  check-status
+}
+
+show-network() {
+  echo "VOICES Network"
+  echo ""
+  twingate resources
+}
+
+network-test() {
+  # TODO
+  REMOTE_IP=$1
+  echo "Testing connection to $REMOTE_IP"
+#  ssh user@dst 'iperf -s'
+#  ssh user@src 'iperf -c dst'
+}
+
+register-service() {
+  # TODO
+  echo "Registering service..."
+}
+
+delete-service() {
+  # TODO
+    echo "Deleting service..."
+}
+
+
+icmp-ping-test() {
+  PYTHON_SCRIPT_CACHE=/tmp/.python_script_cache_file
+
+  PYTHON_SCRIPT=$(cat << '_PYTHON_SCRIPT' >$PYTHON_SCRIPT_CACHE
+
+  def print_pairing_commands(src, dst):
+    print(f"ssh carma@{dst} 'iperf -s'")
+    print(f"ssh carma@{src} 'iperf -c {dst}'")
+
+  andrew="192.168.0.230"
+  archak="192.168.0.62"
+  cheng="192.168.50.227"
+
+  david="192.168.50.241"
+  david_ghost="192.168.0.137"
+
+  print_pairing_commands(andrew, archak)
+  print_pairing_commands(andrew, cheng)
+  print_pairing_commands(archak, cheng)
+
+  print_pairing_commands(david, cheng)
+  print_pairing_commands(david, archak)
+  print_pairing_commands(david, david_ghost)
+
+  _PYTHON_SCRIPT
+  )
+
+  python3 $PYTHON_SCRIPT_CACHE $@
+}
+
+
+
+
+# ------------------------------------------------------------------------------
+# Run
+# ------------------------------------------------------------------------------
+
+# Execute the script with forward-declared functions
+main $@

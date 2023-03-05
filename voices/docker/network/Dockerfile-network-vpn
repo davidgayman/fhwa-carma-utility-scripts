@@ -1,7 +1,3 @@
 FROM voices-network-tools
 
-# Connector MUST be configured with network administrator in the loop; no commands are available.
-# Twingate client
-RUN curl -S 'https://binaries.twingate.com/client/linux/install.sh' | sudo bash
-RUN twingate setup --headless $HOME/.twingate/service_key.json
-
+RUN vpn install

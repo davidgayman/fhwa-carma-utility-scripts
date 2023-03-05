@@ -1,1 +1,3 @@
 FROM voices-network-mw-monitor
+
+RUN mw install adapters

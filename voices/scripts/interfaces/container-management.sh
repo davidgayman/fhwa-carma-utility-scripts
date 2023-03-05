@@ -7,6 +7,10 @@ source bashbase.sh
 # CONTAINER_NAME
 # CONTAINER_RUN_OPTIONS
 
+# Use a standard volume mapping
+INSTALLATION_PACKAGE_PATH=$HOME/voices/installation-packages
+DOCKER_VOLUME_MAPPING="-v ${INSTALLATION_PACKAGE_PATH}:${INSTALLATION_PACKAGE_PATH}"
+
 COMMAND_LIST += [
   "build"       "Build the image."
 #  "push"        "Push the image to the global repository."
@@ -26,7 +30,7 @@ build() {
   ENV INSTALLATION_PACKAGE_PATH=$HOME/voices-large-files
   sudo docker run --rm -v HOST_INSTALLATION_PACKAGE_PATH:INSTALLATION_PACKAGE_PATH -v /Users/$INSTALL_TENA_USERNAME/$INSTALL_TENA_DIR:/home tena:v2xhub /home/Downloads/TENA-MiddlewareSDK-v6.0.8.B@Product@u2004-gcc9-64-va0b09d44.bin -i /home --auto
 
-  docker build --force-rm --rm -f ./Dockerfile -t tena:carla .
+  docker build ${DOCKER_VOLUME_MAPPING} --force-rm --rm -f ./Dockerfile -t tena:carla .
 }
 
 #push() {
@@ -35,7 +39,7 @@ build() {
 
 devsh() {
   run
-  docker exec -it $CONTAINER_NAME clion
+  docker exec ${DOCKER_VOLUME_MAPPING} -it $CONTAINER_NAME clion
 }
 
 #pull() {
@@ -46,13 +50,13 @@ devsh() {
 #}
 #
 run() {
-  docker run $IMAGE_NAME as $CONTAINER_NAME $CONTAINER_RUN_OPTIONS
+  docker run ${DOCKER_VOLUME_MAPPING} $IMAGE_NAME as $CONTAINER_NAME $CONTAINER_RUN_OPTIONS
 }
 #
 #sh() {
-#  docker exec -it $CONTAINER_NAME /bin/bash
+#  docker exec ${DOCKER_VOLUME_MAPPING} -it $CONTAINER_NAME /bin/bash
 #}
 #
 #stop() {
-#  docker stop $CONTAINER_NAME
+#  docker stop ${DOCKER_VOLUME_MAPPING} $CONTAINER_NAME
 #}

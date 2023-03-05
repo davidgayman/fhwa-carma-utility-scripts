@@ -1,2 +1,48 @@
 #!/bin/bash
 source ../interfaces/process-management.sh
+
+install() {
+
+  if [[ == "framework" ]]; then
+#      dpkg --force-overwrite -i 'TENA-StandardOMsSDK-v2.0.0/TENA-StandardOMsSDK-v2.0.0@Product@u2004-gcc9-64-d-v99ae11aa.deb'
+#      dpkg --force-overwrite -i 'TENA-Console-v2.0.1/TENA-Console-v2.0.1@Product@u2004-gcc9-64-v244836f9.deb'
+#      dpkg --force-overwrite -i 'TENA-MiddlewareSDK-v6.0.9.A/TENA-MiddlewareSDK-v6.0.9.A@Product@u2004-gcc9-64-d-va3bc16dc.deb'
+#      dpkg --force-overwrite -i 'TENA-Canary-v1.0.13/TENA-Canary-v1.0.13@Product@u2004-gcc9-64-vdbd87712.deb'
+
+    #TENA Middleware
+    ${INSTALLATION_PACKAGE_PATH}/TENA-MiddlewareSDK-v${TENA_VERSION}.B@Product@${TENA_PLATFORM}-va0b09d44.bin -i /home --auto
+
+    #VUG Combined Distribution OM
+    ${INSTALLATION_PACKAGE_PATH}/VUG-VOICES-Combined-Distribution-v0.12.0@Product@${TENA_PLATFORM}-v1976e608.bin -i /home --auto
+
+    #TENA Boost
+    ${INSTALLATION_PACKAGE_PATH}/TENA-boost-v1.77.0.1@Product@${TENA_PLATFORM}-vall.bin -i /home --auto
+
+  elif [[ == "monitor" ]]; then
+
+    dpkg -i --force-overwrite ${INSTALLATION_PACKAGE_PATH}/TENA-Console-v2.0.0@Product@u2004-gcc9-64-v51bb0659.deb
+    dpkg -i --force-overwrite ${INSTALLATION_PACKAGE_PATH}/TENA-Canary-v1.0.13@Product@u2004-gcc9-64-vdbd87712.deb
+
+  elif [[ == "adapters" ]]; then
+
+#  cp * ${TENA_HOME}/lib  # Copy custom TENA libraries to system
+#  cp tena-cmake-package ${TENA_HOME}/lib
+
+
+
+#      Intelligently selects which layer to interface with and uses relevant script.
+#
+#    Commands:
+#      build <component>       Build the component.
+#      install <component>     Install the component.
+#      start <component>       Start the component.
+#      monitor <component>     Monitor the component.
+#      --help              Print this help information.
+#
+
+    # Pull pre-built adapters OR build from source??
+    echo "Unsure if this should pull pre-built adapters or build from source."
+
+  fi
+
+}

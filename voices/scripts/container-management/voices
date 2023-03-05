@@ -6,3 +6,6 @@ IMAGE_NAME=
 CONTAINER_NAME=
 CONTAINER_RUN_OPTIONS=
 
+start() {
+  # How will we specialize the starting procedure for the EM node?
+}

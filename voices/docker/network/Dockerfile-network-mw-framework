@@ -1,16 +1,8 @@
 FROM voices-network-vpn
 
-ENV INSTALLATION_PACKAGE_PATH=${HOME}/installation-packages
-
 ENV TENA_HOME=/opt
 ENV TENA_VERSION=6.0.8
 ENV TENA_PLATFORM=u2004-gcc9-64
+VUG_INSTALL_DIR
 
-#TENA Middleware
-RUN ${INSTALLATION_PACKAGE_PATH}/TENA-MiddlewareSDK-v${TENA_VERSION}.B@Product@${TENA_PLATFORM}-va0b09d44.bin -i /home --auto
-
-#VUG Combined Distribution OM
-RUN ${INSTALLATION_PACKAGE_PATH}/VUG-VOICES-Combined-Distribution-v0.12.0@Product@${TENA_PLATFORM}-v1976e608.bin -i /home --auto
-
-#TENA Boost
-RUN ${INSTALLATION_PACKAGE_PATH}/TENA-boost-v1.77.0.1@Product@${TENA_PLATFORM}-vall.bin -i /home --auto
+RUN mw install framework

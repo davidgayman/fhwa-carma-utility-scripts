@@ -1,1 +1,11 @@
 FROM ghcr.io/usdot-fhwa-stol/carma-builds:latest
+
+# Set up system environment
+ENV DEBIAN_FRONTEND="noninteractive" TZ="America/New_York"
+
+# Copy commands into the target
+COPY ../../scripts/* /opt/voices/
+ENV PATH=${PATH}:/opt/voices
+ENV PATH=${PATH}:/opt/voices/container-management
+ENV PATH=${PATH}:/opt/voices/process-management
+ENV PATH=${PATH}:/opt/voices/interfaces

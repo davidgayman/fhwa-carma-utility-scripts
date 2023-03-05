@@ -40,12 +40,41 @@
 - monitor: Start canary and console, CARLA gui, and any related front-end applications; launch a browser pointing to all provided web interfaces (including v2x).
 
 
+
 # Scripts
 - container management scripts: Build, install, and run the containers. Docker container lifecycle commands are provided by each, including a `start-dev-ide`.
   - voices
   - voices-carma
 - process management (utility scripts): Called inside the container to do process management (including build and install the process). Each script provides the full lifecycle sub-commands. Leveraged by docker AND transparently usable locally by developers. Utilize Supervisor and call these scripts from Dockerfiles and make them available to the command line via path in docker.
   - net, vpn, mw, carma
+
+
+# Scripted Components
+## Container Management Components
+- voices
+- voices-carma
+
+## Process Management Components
+- net
+  - <all=there are no specific components>
+- vpn
+  - connector
+  - client: A separate client component enables outsiders to VPN in to the network.
+- mw
+  - em
+  - monitoring-tools
+  - adapters
+    - <...each adapter name...>
+- carma
+  - carla
+  - sumo
+  - carma-platform
+  - carma-streets
+
+
+# Sample commands
+voices mw em run
+
 
 
 # Script subcommand mapping

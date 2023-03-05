@@ -27,35 +27,6 @@ BOOST_INCLUDEDIR=${TENA_HOME}/${BOOST_VERSION}/${TENA_VERSION}/include
 # Build options
 N_JOBS=4
 
-# ------------------------------------------------------------------------------
-# Process Arguments
-# ------------------------------------------------------------------------------
-
-main() {
-
-  # Handle only the first command passed into the script
-  case $1 in
-
-    install-tena) install;;
-    install-tena-env) install-tena-env;;
-
-    env-load) env-load;;
-
-    start-console) start-console;;
-    start-em) start-em;;
-
-    doc) doc;;
-
-    help) print_help;;
-    --help) print_help;;
-    *) print_help;;
-
-  esac;
-
-  # Exit with code
-  exit 0
-}
-
 
 # ------------------------------------------------------------------------------
 # Implementation
@@ -63,19 +34,6 @@ main() {
 
 install-tena() {
 
-  # TENA Framework
-  dpkg --force-overwrite -i 'TENA-StandardOMsSDK-v2.0.0/TENA-StandardOMsSDK-v2.0.0@Product@u2004-gcc9-64-d-v99ae11aa.deb'
-  dpkg --force-overwrite -i 'TENA-Console-v2.0.1/TENA-Console-v2.0.1@Product@u2004-gcc9-64-v244836f9.deb'
-  dpkg --force-overwrite -i 'TENA-MiddlewareSDK-v6.0.9.A/TENA-MiddlewareSDK-v6.0.9.A@Product@u2004-gcc9-64-d-va3bc16dc.deb'
-  dpkg --force-overwrite -i 'TENA-Canary-v1.0.13/TENA-Canary-v1.0.13@Product@u2004-gcc9-64-vdbd87712.deb'
-
-  # VOICES Framework
-  cp * ${TENA_HOME}/lib  # Copy custom TENA libraries to system
-  cp tena-cmake-package ${TENA_HOME}/lib
-
-  #...VOICES components are deployed locally to ${VUG_INSTALL_DIR}/scenario-publisher-1.0.0/lib
-
-  # VOICES Adapters
 }
 
 
@@ -110,22 +68,6 @@ env-load() {
 }
 
 
-start-console() {
-  /opt/TENA/Console-v2.0.1/start.sh
-}
-
-
-start-em() {
-  # Start em from command line; easier to launch from the Console GUI
-  TENA_LISTEN_ENDPOINT_IP=
-  TENA_LISTEN_ENDPOINT_PORT=
-  TENA_MULTICAST_ENDPOINT_IP=
-  TENA_MULTICAST_ENDPOINT_PORT=
-
-  $TENA_HOME/executionManager-v${TENA_VERSION}/start.sh \
-    -listenEndpoints ${TENA_LISTEN_ENDPOINT_IP}:${TENA_LISTEN_ENDPOINT_PORT} \
-    -multicastProperties ${TENA_MULTICAST_ENDPOINT_IP}:${TENA_MULTICAST_ENDPOINT_PORT}
-}
 
 
 doc() {
