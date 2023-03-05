@@ -160,6 +160,23 @@ Commands:
 
   --help              Print this help information.
 
+
+
+
+
+
+
+voices <command> <args>
+
+  Intelligently selects which layer to interface with and uses relevant script.
+
+Commands:
+  build <component>       Build the component.
+  install <component>     Install the component.
+  start <component>       Start the component.
+  monitor <component>     Monitor the component.
+  --help              Print this help information.
+
 _HELP_TEXT
 }
 
