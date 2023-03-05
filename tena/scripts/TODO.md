@@ -11,6 +11,7 @@ monitor: Start canary and console, CARLA gui, and any related front-end applicat
 
 # Specific commands (partial list)
 
+## (developer-facing)
 configure-dev-env tena: Copy buildTenaAdapters.sh equivalent, and `Install TENA for Docker Ubuntu Image.sh` equivalent into needed development dirs.
 
 build tena-monitor: Lightweight client, console and canary only.
@@ -21,6 +22,7 @@ build tena-mw-baseimage: Build the base image containing only TENA-supplied comp
     - TENA-boost-v1.77.0.1@Product@u2004-gcc9-64-vall.bin
 build tena: Build the adapter layer on top of the base image.
 
+## (user-facing)
 install twingate
 install tena: Copy cmake/ after installing the TENA system components and adapters.
 install sim
@@ -56,7 +58,7 @@ docker push new-registry/app:some_tag
 - voices system commands
 
 
-# Containers
+# Containers: Also enable passthrough builds
 - Dev container
 - Deployment base image
 - Deployment use case layer (fires selective processes)
@@ -66,5 +68,4 @@ docker push new-registry/app:some_tag
 - twingate commands
 - tena commands
 - sim layer commands
-- 
 - 
