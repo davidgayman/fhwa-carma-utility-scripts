@@ -1,0 +1,6 @@
+#!/bin/bash
+source ../interfaces/container-management.sh
+
+IMAGE_NAME=
+CONTAINER_NAME=
+CONTAINER_RUN_OPTIONS=

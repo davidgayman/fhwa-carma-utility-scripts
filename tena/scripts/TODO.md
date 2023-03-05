@@ -1,14 +1,3 @@
-# Lifecycle
-
-configure-dev-env
-compile/build/package
-push/deploy
-pull
-#install: Not needed to register commands in the system.
-run/start
-monitor: Start canary and console, CARLA gui, and any related front-end applications; launch a browser pointing to all provided web interfaces (including v2x).
-
-
 # Layers
 - voices: Shell into the Network/integration/connection stack
   - Network (basic ping tests and getting ip etc.)
@@ -17,62 +6,58 @@ monitor: Start canary and console, CARLA gui, and any related front-end applicat
 - carma: Shell into the carma stack: CARMA Solution: CARMA Sim
 
 
-
-
-
-
-# Developer-facing Scripts
-- Start ide inside dev container
-# User-facing Scripts
-- voices system commands
-
-
-- container management scripts: Build, install, and run the containers.
-  - voices
-  - voices-carma
-- utility scripts: Called inside the container to do process management (including build and install the process).
-  - net, vpn, mw, carma
-
 # Containers: Also enable passthrough builds
-- voices base image
-- voices-network: with network-tools
-- voices-vpn
-- tena-mw-baseimage
-- tena-monitor
-- tena-adapters
-- sim baseimage
-- sim demo-2-siteA
-- sim demo-2-siteB
-- sim demo-2-siteC
-
-- Dev container (from tena-mw-baseimage with twingate with network-tools)
-- Deployment base image
-- Deployment use case layer (fires selective processes)
+- voices
+    - base image (`FROM UBUNTU`)
+    - voices-network: Adds network-tools
+    - voices-vpn
+    - tena-mw
+    - tena-monitor
+    - tena-adapters
+- sim
+    - base image (`FROM UBUNTU`)
+    - sim demo-2-siteA
+    - sim demo-2-siteB
+    - sim demo-2-siteC
 
 
-
-# Utility scripts: Leveraged by docker AND transparently usable locally by developers. Utilize Supervisor and call these scripts from Dockerfiles and make them available to the command line via path in docker.
-- twingate commands
-- tena commands
-- sim layer commands
--
-
-
-
+# container management scripts lifecycles
+- build
+- push
+- pull
+- install
+- run
+- stop
 
 
-
-
+# Script subcommand lifecycles
+- configure-dev-env
+- compile/build/package
+- push/deploy
+- pull
+- #install: Not needed to register commands in the system.
+- run/start
+- monitor: Start canary and console, CARLA gui, and any related front-end applications; launch a browser pointing to all provided web interfaces (including v2x).
 
 
 # Scripts
+- container management scripts: Build, install, and run the containers. Docker container lifecycle commands are provided by each, including a `start-dev-ide`.
+  - voices
+  - voices-carma
+- process management (utility scripts): Called inside the container to do process management (including build and install the process). Each script provides the full lifecycle sub-commands. Leveraged by docker AND transparently usable locally by developers. Utilize Supervisor and call these scripts from Dockerfiles and make them available to the command line via path in docker.
+  - net, vpn, mw, carma
+
+
+# Script subcommand mapping
 - voices or voices-connector <command>
   - <default command=sh or bash> Shell into the network layer (network+vpn+messaging) container.
     - net: Net commands
         - <lifecycle commands>
     - vpn: VPN commands
         - <lifecycle commands>
-    - mw: Middleware/messaging commands
+    - mw-monitor: Middleware/messaging commands
+        - <lifecycle commands=build, install, run, stop>
+    - mw-adapters: Middleware/messaging commands
         - <lifecycle commands=build, install, run, stop>
   - build: Build the voices image.
   - run: Run the voices image.
@@ -89,6 +74,9 @@ monitor: Start canary and console, CARLA gui, and any related front-end applicat
         - <component> <lifecycle command>
 
 
+# Adavnced features
+- TK component status dashboard
+- NX or Python or Ruby implementation
 
 # Specific commands (partial list)
 
@@ -119,16 +107,7 @@ tena monitor <component>: Launch Console and Canary to inspect runtime.
 sim monitor <component>
 
 
-# Gotchas that need to be scripted
-+sudo apt install libxcb-xinerama0
-+Change XERCESC_VERSION in the Docker container (right above the make in the tena-carla-adapter): RUN find /home/carla -type f -exec sed -i 's/XERCESC_VERSION=3.2.3/XERCESC_VERSION=3.2.4/g' {} \;
-
-
-# Move docker image from one registry to another
+## Move docker image from one registry to another
 docker pull old-registry/app:some_tag
 docker tag old-registry/app:some_tag new-registry/app:some_tag
 docker push new-registry/app:some_tag
-
-
-
-
