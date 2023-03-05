@@ -21,6 +21,11 @@ COMMAND_LIST += [
 
 build() {
 #  docker build $DOCKERFILE $IMAGE_NAME
+
+  ENV HOST_INSTALLATION_PACKAGE_PATH=$HOME/voices-large-files
+  ENV INSTALLATION_PACKAGE_PATH=$HOME/voices-large-files
+  sudo docker run --rm -v HOST_INSTALLATION_PACKAGE_PATH:INSTALLATION_PACKAGE_PATH -v /Users/$INSTALL_TENA_USERNAME/$INSTALL_TENA_DIR:/home tena:v2xhub /home/Downloads/TENA-MiddlewareSDK-v6.0.8.B@Product@u2004-gcc9-64-va0b09d44.bin -i /home --auto
+
   docker build --force-rm --rm -f ./Dockerfile -t tena:carla .
 }
 
