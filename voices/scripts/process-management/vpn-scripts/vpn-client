@@ -1,0 +1,18 @@
+#!/bin/bash
+source ../interfaces/process-management.sh
+
+
+# ------------------------------------------------------------------------------
+# Lifecycle Functions
+# ------------------------------------------------------------------------------
+
+install() {
+  # Twingate vpn-client
+  RUN curl -S 'https://binaries.twingate.com/client/linux/install.sh' | sudo bash
+  RUN twingate setup --headless $HOME/.twingate/service_key.json
+}
+
+
+# ------------------------------------------------------------------------------
+# Specialized Functions
+# ------------------------------------------------------------------------------

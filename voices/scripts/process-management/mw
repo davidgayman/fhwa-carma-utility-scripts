@@ -1,5 +1,16 @@
 #!/bin/bash
-source ../interfaces/process-management.sh
+source ../interfaces/bashbase.sh
+
+SUBCOMMAND_LIST += [
+  "em"                  "Execution manager."
+  "monitoring-tools"    "Tools used to monitor the MW layer."
+  "adapters"            "Adapters which translate data between the MW and CARMA components."
+]
+
+
+
+
+
 
 install() {
 
@@ -46,3 +57,26 @@ install() {
   fi
 
 }
+
+monitor() {
+  /opt/TENA/Console-v2.0.1/start.sh &
+  /opt/TENA/tenaCanary-v1.0.12/start.sh &
+}
+
+
+
+start() {
+  # Start the Execution Manager from command line; easier to launch from the Console GUI
+  TENA_LISTEN_ENDPOINT_IP=
+  TENA_LISTEN_ENDPOINT_PORT=
+  TENA_MULTICAST_ENDPOINT_IP=
+  TENA_MULTICAST_ENDPOINT_PORT=
+
+  $TENA_HOME/executionManager-v${TENA_VERSION}/start.sh \
+    -listenEndpoints ${TENA_LISTEN_ENDPOINT_IP}:${TENA_LISTEN_ENDPOINT_PORT} \
+    -multicastProperties ${TENA_MULTICAST_ENDPOINT_IP}:${TENA_MULTICAST_ENDPOINT_PORT}
+}
+
+
+
+

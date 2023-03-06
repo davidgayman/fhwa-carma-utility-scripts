@@ -1,5 +1,5 @@
 #!/bin/bash
-source /opt/bashbase.sh
+source bashbase.sh
 
 # Define the following in subscripts:
 # <...>

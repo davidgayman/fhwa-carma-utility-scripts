@@ -1,51 +1,7 @@
 #!/bin/bash
 source ../interfaces/process-management.sh
 
-
-# ------------------------------------------------------------------------------
-# Lifecycle Functions
-# ------------------------------------------------------------------------------
-
-
-install() {
-  # Connector MUST be configured with network administrator in the loop; no commands are available.
-  # Twingate client
-  RUN curl -S 'https://binaries.twingate.com/client/linux/install.sh' | sudo bash
-  RUN twingate setup --headless $HOME/.twingate/service_key.json
-}
-
-
-
-# ------------------------------------------------------------------------------
-# Specialized Functions
-# ------------------------------------------------------------------------------
-
-
-
-
-
-start() {
-
-
-
-  # Start the Execution Manager from command line; easier to launch from the Console GUI
-  TENA_LISTEN_ENDPOINT_IP=
-  TENA_LISTEN_ENDPOINT_PORT=
-  TENA_MULTICAST_ENDPOINT_IP=
-  TENA_MULTICAST_ENDPOINT_PORT=
-
-  $TENA_HOME/executionManager-v${TENA_VERSION}/start.sh \
-    -listenEndpoints ${TENA_LISTEN_ENDPOINT_IP}:${TENA_LISTEN_ENDPOINT_PORT} \
-    -multicastProperties ${TENA_MULTICAST_ENDPOINT_IP}:${TENA_MULTICAST_ENDPOINT_PORT}
-}
-
-
-monitor() {
-  /opt/TENA/Console-v2.0.1/start.sh &
-  /opt/TENA/tenaCanary-v1.0.12/start.sh &
-}
-
-
-
-
-
+SUBCOMMAND_LIST += [
+  "client"          "Connects to an existing VPN for observation only."
+  "connector"       "Connects this system to a VPN and registers as a trusted node."
+]

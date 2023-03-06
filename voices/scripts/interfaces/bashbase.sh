@@ -19,6 +19,8 @@
 # Constants
 # ------------------------------------------------------------------------------
 
+THIS_COMMAND=$0
+
 # Define a set of commands
 COMMAND_LIST=[
   help "Print this help information."
@@ -34,20 +36,25 @@ SUBCOMMAND_LIST=[
 # Process Arguments
 # ------------------------------------------------------------------------------
 
-
 main() {
 
+  COMMAND=$1
+
   # Enforce that all commands exist
-  for COMMAND in COMMAND_LIST; do
+  for COM in COMMAND_LIST; do
     if [[ ! $(type -t $COMMAND[0]) == "function" ]]; then
-      echo "Command $COMMAND does not exist - ensure a function with this name is defined."
+      echo "Command COM does not exist - ensure a function with this name is defined."
       exit 1
     fi
   done
-  for COMMAND in SUBCOMMAND_LIST; do
+  for COM in SUBCOMMAND_LIST; do
     if [[ ! $(type -t $COMMAND[0]) == "function" ]]; then
-      echo "Sub-command $COMMAND does not exist - ensure a script with this name is defined."
+      echo "Sub-command COM does not exist - ensure a script with this name is defined."
       exit 1
+    elif [[ ${COMMAND} == ${COM} ]]; then
+      # Prepend to build up subcommand script name
+      COMMAND=${THIS_COMMAND}-${COMMAND}
+      break
     fi
   done
 
@@ -65,7 +72,7 @@ main() {
 all() {
   # Execute the command for all subcommands
   for COMMAND in SUBCOMMAND_LIST; do
-    ${COMMAND}[0] $@
+    ${THIS_COMMAND}-${COMMAND}[0] $@
   done
 }
 

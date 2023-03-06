@@ -1,5 +1,5 @@
 #!/bin/bash
-source ../interfaces/process-management.sh
+source ../interfaces/bashbase.sh
 
 # ------------------------------------------------------------------------------
 # Description
@@ -53,8 +53,8 @@ check-status() {
 # Should recognize and handle each of the following cases:
 # 1. Totally unconfigured system.
 # 2. Configuration is partially complete.
-#   - Has Twingate connector but not client
-#   - Has Twingate client but not connector
+#   - Has Twingate vpn-connector but not vpn-client
+#   - Has Twingate vpn-client but not vpn-connector
 # 3. Configured system that is offline due to:
 #   - Reboot failed to start Twingate
 #   - Reboot failed to connect Twingate
@@ -69,7 +69,7 @@ connect() {
   IS_TWINGATE_CONNECTOR_INSTALLED=true
   IS_TWINGATE_CLIENT_INSTALLED=true
 
-  # Configure connector
+  # Configure vpn-connector
   if [[ $IS_TWINGATE_CONNECTOR_INSTALLED == "false" ]]; then
     echo "Installing VPN Connector..."
     echo "Your IP address is: $(get-ip)"
@@ -79,7 +79,7 @@ connect() {
     $COMMAND
   fi
 
-  # Configure client
+  # Configure vpn-client
   if [[ $IS_TWINGATE_CLIENT_INSTALLED == "false" ]]; then
     echo "Installing VPN Client..."
     curl -S 'https://binaries.twingate.com/client/linux/install.sh' | sudo bash
