@@ -1,5 +1,7 @@
 #!/bin/bash
-source ../interfaces/container-management.sh
+source container-management
+
+echo "voices called with args: $@"
 
 DOCKERFILE=../../docker/
 IMAGE_NAME=
@@ -9,3 +11,5 @@ CONTAINER_RUN_OPTIONS=
 start() {
   # How will we specialize the starting procedure for the EM node?
 }
+
+main $@

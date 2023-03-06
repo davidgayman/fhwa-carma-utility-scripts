@@ -1,5 +1,5 @@
 #!/bin/bash
-source ../interfaces/bashbase.sh
+source bashbase
 
 # ------------------------------------------------------------------------------
 # Description

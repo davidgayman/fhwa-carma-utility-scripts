@@ -1,5 +1,5 @@
 #!/bin/bash
-source ../interfaces/bashbase.sh
+source bashbase
 
 SUBCOMMAND_LIST += [
   "em"                  "Execution manager."

@@ -1,5 +1,5 @@
 #!/bin/bash
-source ../interfaces/process-management.sh
+source process-management
 
 SUBCOMMAND_LIST += [
   "client"          "Connects to an existing VPN for observation only."

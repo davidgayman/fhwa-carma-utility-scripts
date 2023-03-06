@@ -1,2 +1,2 @@
 #!/bin/bash
-source ../interfaces/container-management.sh
+source container-management
