@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Source this script to configure the system to point to this repository's scripts
+
+echo "Be sure to source, not execute, this file: \`source configure\`"
+export PATH=$PATH:$(find . -type d -name scripts | xargs -n 1 -I % sh -c 'find % -type d' | xargs | tr ' ' ':')
