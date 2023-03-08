@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Configure a container, or this system, with the CARMA repositories, tooling, dependencies, and development environment.
+
+
+
 
 # Further instructions at:
 # - https://usdot-carma.atlassian.net/wiki/spaces/CRMPLT/pages/486178841/Setup+CARMA+Platform+Prerequisites

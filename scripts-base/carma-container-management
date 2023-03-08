@@ -20,7 +20,7 @@ COMMAND_LIST["build"]="Build the image."
 COMMAND_LIST["devsh"]="Start the container, shell into it, and launch an IDE."
 
 #COMMAND_LIST["pull"]="Pull a pre-built image."
-#COMMAND_LIST["install"]="Install as a persistent service on the system."
+#COMMAND_LIST["install"]="Install as a persistent service on this, or a remote, system."
 COMMAND_LIST["run"]="Run the service."
 #COMMAND_LIST["sh"]="Shell into a running container to access sub-commands to manage the system."
 #COMMAND_LIST["stop"]="Stop the service."
@@ -58,6 +58,7 @@ devsh() {
 #}
 #
 #install() {
+# TODO Provide options to enable installation to a remote machine, or this one.
 #}
 #
 run() {

@@ -2,10 +2,13 @@
 
 # Source this script to configure the system to point to this repository's scripts
 
-echo "Be sure to source, not execute, this file: \`source configure\`"
+THIS_SCRIPT_DIR=$(dirname $BASH_SOURCE)
 
 # Add all script subdirectories to PATH
-export PATH=$PATH:$(find . -type d -name scripts | xargs -n 1 -I % sh -c 'find % -type d' | xargs | tr ' ' ':')
+export PATH=$PATH:$(find $THIS_SCRIPT_DIR -type d -name "scripts*" | xargs -n 1 -I % sh -c 'find % -type d' | xargs | tr ' ' ':')
 
-#
-export VOICES=
+# Identify critical directories
+export CARMA_SCRIPT_ROOT=$THIS_SCRIPT_DIR
+export CARMA_SCRIPTS_BASE=$CARMA_SCRIPT_ROOT/scripts-base
+
+export CARMA_DOCKER_ROOT=$THIS_SCRIPT_DIR

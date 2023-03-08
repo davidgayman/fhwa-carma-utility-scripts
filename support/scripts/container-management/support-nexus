@@ -1,0 +1,21 @@
+#!/bin/bash
+source $CARMA_SCRIPTS_BASE/container-management
+
+# Configure a Sonatype Nexus binary repository
+
+IMAGE_NAME="sonatype/nexus3"
+CONTAINER_NAME="sonatype/nexus3"
+
+DOCKERFILE=$CARMA_DOCKER_ROOT/
+IMAGE_NAME=sonatype/nexus3
+CONTAINER_NAME=sonatype/nexus3
+CONTAINER_RUN_OPTIONS=
+
+
+start() {
+     docker run -d -p 8081:8081 --name nexus IMAGE_NAME
+}
+
+stop() {
+    docker stop --time=120 $CONTAINER_NAME
+}

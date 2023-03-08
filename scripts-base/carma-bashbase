@@ -1,21 +1,21 @@
 #!/bin/bash
 
 echo "bashbase called with args: $@"
-#echo "bashbase 0: $0"
-#echo "bashbase 1: $1"
-#echo "bashbase basename 0: `basename $0`"
+#echo "carma-bashbase 0: $0"
+#echo "carma-bashbase 1: $1"
+#echo "carma-bashbase basename 0: `basename $0`"
 #shift
-#echo "shift - bashbase called with args: $@"
-#echo "bashbase 0: $0"
-#echo "bashbase basename 0: `basename $0`"
-#echo "bashbase 1: $1"
+#echo "shift - carma-bashbase called with args: $@"
+#echo "carma-bashbase 0: $0"
+#echo "carma-bashbase basename 0: `basename $0`"
+#echo "carma-bashbase 1: $1"
 
 # ------------------------------------------------------------------------------
 # Description
 # ------------------------------------------------------------------------------
 
 # Usage:
-# 1. Inherit this script: `source /opt/bashbase`
+# 1. Inherit this script: `source /opt/carma-bashbase`
 # 2. Define the following items:
 #     DESCRIPTION: Script description.
 #     COMMAND_LIST: Command names and help description.
@@ -29,7 +29,8 @@ echo "bashbase called with args: $@"
 # Constants
 # ------------------------------------------------------------------------------
 
-THIS_COMMAND=$(basename $0)
+THIS_COMMAND=$(basename $BASH_SOURCE)
+THIS_SCRIPT_DIR=$(dirname $BASH_SOURCE)
 
 # Define a set of commands
 declare -A COMMAND_LIST

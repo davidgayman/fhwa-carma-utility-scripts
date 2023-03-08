@@ -1,3 +1,4 @@
 #!/bin/bash
+THIS_SCRIPT_DIR=$(dirname $BASH_SOURCE)
 
-echo "source $PWD/configure" >>~/.bashrc
+echo "source $THIS_SCRIPT_DIR/configure" >>~/.bashrc
