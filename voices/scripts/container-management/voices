@@ -1,15 +1,17 @@
 #!/bin/bash
-source container-management
+source /home/carma/code/stol/carma-utilities-dg/voices/scripts/interfaces/container-management
 
 echo "voices called with args: $@"
 
-DOCKERFILE=../../docker/
-IMAGE_NAME=
-CONTAINER_NAME=
+#DOCKERFILE=../../docker/
+DOCKERFILE=/home/carma/code/stol/carma-utilities-dg/voices/docker/network/Dockerfile-network-base
+IMAGE_NAME=voices-network-base
+CONTAINER_NAME=voices-network-base
 CONTAINER_RUN_OPTIONS=
 
 start() {
   # How will we specialize the starting procedure for the EM node?
+  echo "voices start"
 }
 
 main $@

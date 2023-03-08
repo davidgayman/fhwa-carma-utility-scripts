@@ -30,7 +30,8 @@ install() {
     ${INSTALLATION_PACKAGE_PATH}/TENA-boost-v1.77.0.1@Product@${TENA_PLATFORM}-vall.bin -i /home --auto
 
   elif [[ == "monitor" ]]; then
-
+    # TODO Veriffy .org not .mil
+    # middlewareSDK
     dpkg -i --force-overwrite ${INSTALLATION_PACKAGE_PATH}/TENA-Console-v2.0.0@Product@u2004-gcc9-64-v51bb0659.deb
     dpkg -i --force-overwrite ${INSTALLATION_PACKAGE_PATH}/TENA-Canary-v1.0.13@Product@u2004-gcc9-64-vdbd87712.deb
 

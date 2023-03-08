@@ -32,14 +32,12 @@ echo "bashbase called with args: $@"
 THIS_COMMAND=$(basename $0)
 
 # Define a set of commands
-declare -A COMMAND_LIST=(
-  ["help"]="Print this help information."
-)
+declare -A COMMAND_LIST
+COMMAND_LIST["help"]="Print this help information."
 
 # Define a set of sub-commands
-declare -A SUBCOMMAND_LIST=(
-  ["all"]="Run the command on all subcommands."
-)
+declare -A SUBCOMMAND_LIST
+SUBCOMMAND_LIST["all"]="Run the command on all subcommands."
 
 
 # ------------------------------------------------------------------------------
@@ -58,7 +56,6 @@ main() {
 
   # Call the relevant operation
   shift
-  echo "calling command: $COMMAND $@"
   $COMMAND $@
   exit 0
 }
@@ -119,9 +116,3 @@ verify_implementation() {
   done
 
 }
-
-
-
-
-# Testing only
-main $@

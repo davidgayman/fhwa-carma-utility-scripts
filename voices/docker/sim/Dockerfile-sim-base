@@ -1,4 +1,5 @@
-FROM ghcr.io/usdot-fhwa-stol/carma-builds:latest
+FROM voices-network-base
+ghcr.io/usdot-fhwa-stol/carma-builds:latest
 
 # Set up system environment
 ENV DEBIAN_FRONTEND="noninteractive" TZ="America/New_York"
