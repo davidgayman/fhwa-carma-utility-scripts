@@ -1,18 +1,18 @@
 #!/bin/bash
-source /home/carma/code/stol/carma-utilities-dg/voices/scripts/interfaces/bashbase
+source $CARMA_SCRIPTS_BASE/carma-bashbase
 
 
 echo "container-management called with args: $@"
 
 
 # Define the following in subscripts:
-# DOCKERFILE
+# DOCKERFILE_FULL_PATH
 # IMAGE_NAME
 # CONTAINER_NAME
 # CONTAINER_RUN_OPTIONS
 
 # Use a standard volume mapping
-INSTALLATION_PACKAGE_PATH=$HOME/voices/installation-packages
+INSTALLATION_PACKAGE_PATH=$HOME/carma/installation-packages
 DOCKER_VOLUME_MAPPING="-v ${INSTALLATION_PACKAGE_PATH}:${INSTALLATION_PACKAGE_PATH}"
 
 COMMAND_LIST["build"]="Build the image."
@@ -20,7 +20,7 @@ COMMAND_LIST["build"]="Build the image."
 COMMAND_LIST["devsh"]="Start the container, shell into it, and launch an IDE."
 
 #COMMAND_LIST["pull"]="Pull a pre-built image."
-#COMMAND_LIST["install"]="Install as a persistent service on this, or a remote, system."
+COMMAND_LIST["install"]="Install as a persistent service on this, or a remote, system."
 COMMAND_LIST["run"]="Run the service."
 #COMMAND_LIST["sh"]="Shell into a running container to access sub-commands to manage the system."
 #COMMAND_LIST["stop"]="Stop the service."
@@ -28,13 +28,13 @@ COMMAND_LIST["run"]="Run the service."
 build() {
   echo "container-management building"
   echo "DOCKER_VOLUME_MAPPING: $DOCKER_VOLUME_MAPPING"
-  echo "DOCKERFILE: $DOCKERFILE"
+  echo "DOCKERFILE_FULL_PATH: $DOCKERFILE_FULL_PATH"
   echo "CONTAINER_NAME: $CONTAINER_NAME"
 
   mkdir /tmp/docker-build
-  docker build -t $CONTAINER_NAME -f $DOCKERFILE /tmp/docker-build
+  sudo docker build -t $IMAGE_NAME:latest -f $DOCKERFILE_FULL_PATH /tmp/docker-build
 
-#  docker build $DOCKERFILE $IMAGE_NAME
+#  docker build $DOCKERFILE_FULL_PATH $IMAGE_NAME
 
 #  ENV HOST_INSTALLATION_PACKAGE_PATH=$HOME/voices-large-files
 #  ENV INSTALLATION_PACKAGE_PATH=$HOME/voices-large-files
@@ -57,12 +57,15 @@ devsh() {
 #  docker pull
 #}
 #
-#install() {
-# TODO Provide options to enable installation to a remote machine, or this one.
-#}
+install() {
+  # TODO Provide options to enable installation to a remote machine, or this one.
+  # TODO Reference this info for proper configuration as a systemd service: https://blog.marcnuri.com/docker-container-as-linux-system-service
+  ssh $TARGET sudo docker run -d $CONTAINER_RUN_OPTIONS $DOCKER_VOLUME_MAPPING --name $CONTAINER_NAME $IMAGE_NAME
+}
 #
 run() {
   echo "container-management run"
+  sudo docker run $CONTAINER_RUN_OPTIONS $DOCKER_VOLUME_MAPPING --name $CONTAINER_NAME $IMAGE_NAME
 #  docker run ${DOCKER_VOLUME_MAPPING} $IMAGE_NAME as $CONTAINER_NAME $CONTAINER_RUN_OPTIONS
 }
 #

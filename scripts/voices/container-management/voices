@@ -3,8 +3,8 @@ source /home/carma/code/stol/carma-utilities-dg/voices/scripts/interfaces/contai
 
 echo "voices called with args: $@"
 
-#DOCKERFILE=../../docker/
-DOCKERFILE=/home/carma/code/stol/carma-utilities-dg/voices/docker/network/Dockerfile-network-base
+#DOCKERFILE_FULL_PATH=../../docker/
+DOCKERFILE`_FULL_PATH=/home/carma/code/stol/carma-utilities-dg/voices/docker/network/Dockerfile-network-base
 IMAGE_NAME=voices-network-base
 CONTAINER_NAME=voices-network-base
 CONTAINER_RUN_OPTIONS=
