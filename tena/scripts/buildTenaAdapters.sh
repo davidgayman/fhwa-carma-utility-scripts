@@ -14,7 +14,7 @@ username=$(whoami)
 localTenaDir=/home/$username/TENA 				#root directory of TENA installation
 localTenaPackageDownloadDir=/home/$username/Downloads/TENA	#location of the TENA dependency packages
 localTenadevDir=/home/$username/tenadev			#location of local tenadev
-localInstallDir=$localTenadevDir/INSTALL		#location to install/build TENA adapters
+localInstallDir=/home/carma/TENA/install  #$localTenadevDir/INSTALL		#location to install/build TENA adapters
 #---------------------------------------------------------#
 
 #-------------------| TENA VARIABLES |-------------------#
@@ -70,6 +70,7 @@ echo "    [7]  	tena-entity-generator"
 echo "    [8] 	carma-platform-tena-adapter"
 echo "    [9] 	vug-threads"
 echo "    [10] 	vug-udp-protocolio"
+echo "    [11] 	tena-traffic-light-entity-generator"
 echo
 read -p "--> " tenaAppIndex
 
@@ -159,6 +160,15 @@ elif [[ $tenaAppIndex == 9 ]]; then
 elif [[ $tenaAppIndex == 10 ]]; then
 	tenaApp=vug-udp-protocolio
 	gitCloneUrl="https://www.trmc.osd.mil/bitbucket/scm/vug/vug-udp-protocolio.git"
+	dockerContainer=tena:carla
+	remoteAppDir=/home/$tenaApp	#DO NOT CHANGE: internal docker directory mapped to localAppDir
+	isV2xhubPlugin=false
+	requiresProtocolio=false
+	useMasterDefaultBranch=true
+
+elif [[ $tenaAppIndex == 11 ]]; then
+	tenaApp=tena-traffic-light-entity-generator
+	gitCloneUrl="git@github.com:davidgayman/tena-traffic-light-entity-generator-dg.git"
 	dockerContainer=tena:carla
 	remoteAppDir=/home/$tenaApp	#DO NOT CHANGE: internal docker directory mapped to localAppDir
 	isV2xhubPlugin=false

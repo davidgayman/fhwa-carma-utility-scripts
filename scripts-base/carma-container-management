@@ -1,9 +1,24 @@
 #!/bin/bash
 source $CARMA_SCRIPTS_BASE/carma-bashbase
-
-
 echo "container-management called with args: $@"
 
+
+# ------------------------------------------------------------------------------
+# Constants
+# ------------------------------------------------------------------------------
+
+# Paths
+INSTALLATION_PACKAGE_PATH=$HOME/carma/installation-packages
+DOCKER_BUILD_SPACE=/tmp/docker-build
+
+# Container arguments
+DOCKER_VOLUME_MAPPING="-v ${INSTALLATION_PACKAGE_PATH}:${INSTALLATION_PACKAGE_PATH}"
+CONTAINER_ENV="--env CARMA_SCRIPT_ROOT=$CARMA_SCRIPT_ROOT --env CARMA_SCRIPTS_BASE=$CARMA_SCRIPTS_BASE"
+
+
+# ------------------------------------------------------------------------------
+# Parameters
+# ------------------------------------------------------------------------------
 
 # Define the following in subscripts:
 # DOCKERFILE_FULL_PATH
@@ -11,12 +26,15 @@ echo "container-management called with args: $@"
 # CONTAINER_NAME
 # CONTAINER_RUN_OPTIONS
 
-# Use a standard volume mapping
-INSTALLATION_PACKAGE_PATH=$HOME/carma/installation-packages
-DOCKER_VOLUME_MAPPING="-v ${INSTALLATION_PACKAGE_PATH}:${INSTALLATION_PACKAGE_PATH}"
+
+# ------------------------------------------------------------------------------
+# Commands
+# ------------------------------------------------------------------------------
+
 
 COMMAND_LIST["build"]="Build the image."
 #COMMAND_LIST["push"]="Push the image to the global repository."
+COMMAND_LIST["sh"]="Start the container and shell into it interactively."
 COMMAND_LIST["devsh"]="Start the container, shell into it, and launch an IDE."
 
 #COMMAND_LIST["pull"]="Pull a pre-built image."
@@ -32,7 +50,7 @@ build() {
   echo "CONTAINER_NAME: $CONTAINER_NAME"
 
   mkdir /tmp/docker-build
-  sudo docker build -t $IMAGE_NAME:latest -f $DOCKERFILE_FULL_PATH /tmp/docker-build
+  sudo docker build $CONTAINER_ENV -t $IMAGE_NAME:latest -f $DOCKERFILE_FULL_PATH $DOCKER_BUILD_SPACE
 
 #  docker build $DOCKERFILE_FULL_PATH $IMAGE_NAME
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configure a container, or this system, with the CARMA repositories, tooling, dependencies, and development environment.
-
+# TODO Could just be implemented as `voices-carma devsh`
 
 
 
