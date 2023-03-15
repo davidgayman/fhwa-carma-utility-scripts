@@ -10,7 +10,10 @@ ENV PATH="${PATH}:/opt/carma/carma-utils/scripts:/opt/carma/carma-utils/scripts/
 COPY .source-repositories/tena-traffic-light-entity-generator /opt/carma/voices/mw-adapters/tena-traffic-light-entity-generator
 COPY .source-repositories/tena-j2735-message-adapter /opt/carma/voices/mw-adapters/tena-j2735-message-adapter
 
+COPY .source-repositories/tena-cmake-package/cmake /opt/TENA/lib/cmake
+
 # Development tools
+RUN apt-get install -y libxrender1
 COPY .binaries/mw-adapters/CLion-2022.3.1.tar.gz /tmp/
 RUN mkdir -p /opt/carma/voices/mw-adapters
 RUN tar -xf /tmp/CLion-2022.3.1.tar.gz -C /opt/carma/voices/mw-adapters

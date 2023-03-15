@@ -79,8 +79,15 @@ sh() {
 }
 
 devsh() {
-  echo "container-management devsh"
-  sudo docker run -it --entrypoint /opt/carma/voices/mw-adapters/clion-2022.3.1/bin/clion.sh $DOCKER_CONTAINER_RUN_OPTIONS $DOCKER_VOLUME_MAPPING --name $DOCKER_CONTAINER_NAME $DOCKER_CONTAINER_NAME-${DOCKER_IMAGE_NAME_APPEND_LIST[-1]}
+  docker stop $DOCKER_CONTAINER_NAME; docker rm $DOCKER_CONTAINER_NAME
+  sudo docker run -it \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -e DISPLAY=unix$DISPLAY \
+  --entrypoint /opt/carma/voices/mw-adapters/clion-2022.3.1/bin/clion.sh \
+  $DOCKER_CONTAINER_RUN_OPTIONS \
+  $DOCKER_VOLUME_MAPPING \
+  --name $DOCKER_CONTAINER_NAME \
+  $DOCKER_CONTAINER_NAME-${DOCKER_IMAGE_NAME_APPEND_LIST[-1]}
 #  run
 #  docker exec ${DOCKER_VOLUME_MAPPING} -it $CONTAINER_NAME clion
 }
