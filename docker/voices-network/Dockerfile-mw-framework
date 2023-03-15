@@ -5,12 +5,10 @@ ENV TENA_VERSION=6.0.8
 ENV TENA_PLATFORM=u2004-gcc9-64
 ENV VUG_INSTALL_DIR=/opt/carma/TENA-VUG
 
-RUN sudo mkdir -p $TENA_HOME/TENA
-RUN sudo chown carma:carma -R $TENA_HOME/TENA
-RUN sudo mkdir -p $VUG_INSTALL_DIR
-RUN sudo chown carma:carma -R $VUG_INSTALL_DIR
-
-COPY ./binaries/mw-framework /tmp/binaries-mw-framework
+RUN mkdir -p $TENA_HOME/TENA
+RUN mkdir -p $VUG_INSTALL_DIR
+RUN mkdir -p /tmp/binaries-mw-framework
+COPY ./.binaries/mw-framework /tmp/binaries-mw-framework
 
 RUN /tmp/binaries-mw-framework/TENA-MiddlewareSDK-v6.0.8.B@Product@u2004-gcc9-64-va0b09d44.bin -i $TENA_HOME --auto
 RUN /tmp/binaries-mw-framework/TENA-StandardOMsSDK-v2.0.0@Product@u2004-gcc9-64-v54c2ccf3.bin -i $TENA_HOME --auto

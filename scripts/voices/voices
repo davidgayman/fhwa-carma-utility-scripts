@@ -16,8 +16,8 @@ DOCKER_IMAGE_NAME_APPEND_LIST=(
   tools
   vpn
   mw-framework
-#  mw-monitor
-#  mw-adapters
+  mw-monitor
+  mw-adapters
   )
 
 DOCKER_CONTAINER_RUN_OPTIONS=

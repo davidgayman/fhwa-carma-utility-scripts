@@ -1,0 +1,34 @@
+Step 7/8 : RUN dpkg -i --force-overwrite /tmp/binaries-mw-monitor/TENA-Console-v2.0.1@Product@u2004-gcc9-64-v244836f9.deb
+ ---> Running in 837233ab4786
+Selecting previously unselected package tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb.
+(Reading database ... 11128 files and directories currently installed.)
+Preparing to unpack .../TENA-Console-v2.0.1@Product@u2004-gcc9-64-v244836f9.deb ...
+Unpacking tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb (2.0.1) ...
+Setting up tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb (2.0.1) ...
+/var/lib/dpkg/info/tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb.postinst: line 9: [: =: unary operator expected
+/var/lib/dpkg/info/tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb.postinst: line 28: /root/TENA_TEST/TENA-Console-v2.0.1--Product--u2004-gcc9-64-v244836f9.deb.log: No such file or directory
+/var/lib/dpkg/info/tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb.postinst: line 29: /root/TENA_TEST/TENA-Console-v2.0.1--Product--u2004-gcc9-64-v244836f9.deb.log: No such file or directory
+/var/lib/dpkg/info/tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb.postinst: line 30: /root/TENA_TEST/TENA-Console-v2.0.1--Product--u2004-gcc9-64-v244836f9.deb.log: No such file or directory
+/var/lib/dpkg/info/tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb.postinst: line 31: /root/TENA_TEST/TENA-Console-v2.0.1--Product--u2004-gcc9-64-v244836f9.deb.log: No such file or directory
+/var/lib/dpkg/info/tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb.postinst: line 32: /root/TENA_TEST/TENA-Console-v2.0.1--Product--u2004-gcc9-64-v244836f9.deb.log: No such file or directory
+/var/lib/dpkg/info/tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb.postinst: line 34: /root/TENA_TEST/TENA-Console-v2.0.1--Product--u2004-gcc9-64-v244836f9.deb.log: No such file or directory
+bash: /root/TENA_TEST/TENA/scripts/Console_v2_0_1/post_install_variableReplacement.sh: No such file or directory
+/var/lib/dpkg/info/tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb.postinst: line 36: /root/TENA_TEST/TENA-Console-v2.0.1--Product--u2004-gcc9-64-v244836f9.deb.log: No such file or directory
+bash: /root/TENA_TEST/TENA/scripts/Console_v2_0_1/post_install_desktop_icon.sh: No such file or directory
+dpkg: error processing package tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb (--install):
+ installed tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb package post-installation script subprocess returned error exit status 127
+Errors were encountered while processing:
+ tena-console-v2.0.1--product--u2004-gcc9-64-v244836f9.deb
+The command '/bin/sh -c dpkg -i --force-overwrite /tmp/binaries-mw-monitor/TENA-Console-v2.0.1@Product@u2004-gcc9-64-v244836f9.deb' returned a non-zero code: 1
+
+
+--------------------------------------------------------------------------------
+Building container: voices-network | Component image: voices-network-mw-adapters
+--------------------------------------------------------------------------------
+
+Sending build context to Docker daemon  2.733GB
+Step 1/6 : FROM voices-network-mw-monitor
+pull access denied for voices-network-mw-monitor, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
+
+
+

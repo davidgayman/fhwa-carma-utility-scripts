@@ -1,4 +1,6 @@
-binaries/
+# Contained installation artifacts
+.binaries/
+.source-repositories/
 
 # Miscellaneous
 *.class

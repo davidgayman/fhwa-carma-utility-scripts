@@ -5,7 +5,7 @@ ENV TENA_VERSION=6.0.8
 ENV TENA_PLATFORM=u2004-gcc9-64
 ENV VUG_INSTALL_DIR=/opt/carma/TENA-VUG
 
-COPY ./binaries/mw-monitor /tmp/binaries-mw-monitor
+COPY .binaries/mw-monitor /tmp/binaries-mw-monitor
 
-RUN dpkg -i --force-overwrite /tmp/binaries-mw-monitor/TENA-Console-v2.0.1@Product@u2004-gcc9-64-v244836f9.deb
-RUN dpkg -i --force-overwrite /tmp/binaries-mw-monitor/TENA-Canary-v1.0.13@Product@u2004-gcc9-64-vdbd87712.deb
+#RUN dpkg -i --force-overwrite /tmp/binaries-mw-monitor/TENA-Console-v2.0.1@Product@u2004-gcc9-64-v244836f9.deb
+#RUN dpkg -i --force-overwrite /tmp/binaries-mw-monitor/TENA-Canary-v1.0.13@Product@u2004-gcc9-64-vdbd87712.deb

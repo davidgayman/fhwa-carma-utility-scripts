@@ -4,27 +4,10 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV TZ="America/New_York"
 RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y sudo git vim tree
+RUN apt-get install -y snapd
+RUN systemctl enable snapd
+RUN apt-get install -y git vim tree
 
-# Copy installation script into the target
-COPY install-scripts /tmp
-
-# Create user
-RUN useradd -ms /bin/bash carma -G sudo
-RUN echo "carma ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers.d/carma
-USER carma
-
-# Install scripts
-RUN /tmp/install-scripts
+# Copy scripts in
+RUN mkdir -p /opt/carma/carma-utils
 COPY scripts /opt/carma/carma-utils/scripts
-
-# Added to get python2 and python2-pip
-#RUN add-apt-repository universe
-#RUN apt update
-
-# Install pip for python2
-#RUN apt-get install -y python2 curl openssl
-#RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
-#RUN python2 get-pip.py
-
-#WORKDIR ${HOME}
