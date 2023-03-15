@@ -30,13 +30,6 @@ echo "bashbase called with args: $@"
 
 # Locate this base script
 THIS_COMMAND=$(basename $BASH_SOURCE)
-THIS_SCRIPT_DIR=$(dirname $BASH_SOURCE)
-
-# Identify critical directories
-export CARMA_UTILITIES_ROOT=$THIS_SCRIPT_DIR/..
-export CARMA_DOCKER_ROOT=$CARMA_UTILITIES_ROOT/docker
-export CARMA_SCRIPT_ROOT=$CARMA_UTILITIES_ROOT/scripts
-export CARMA_SCRIPTS_BASE=$CARMA_UTILITIES_ROOT/scripts-base
 
 # ------------------------------------------------------------------------------
 # Parameters

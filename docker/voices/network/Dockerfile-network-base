@@ -7,10 +7,10 @@ RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y git vim tree htop
 
 # Copy commands into the target
-COPY scripts /opt/carma/scripts
-COPY scripts-base /opt/carma/scripts-base
-COPY configure /opt/carma/
-COPY install-scripts /opt/carma/
+#COPY scripts /opt/carma/scripts
+#COPY scripts-base /opt/carma/scripts-base
+#COPY configure /opt/carma/
+COPY install-scripts /tmp
 
 # Create user
 RUN useradd -m carma -G sudo
@@ -18,10 +18,11 @@ RUN chown carma:carma -R /opt/carma
 USER carma
 
 # Install scripts
-RUN bash -c /opt/carma/install-scripts
-RUN cat $HOME/.bash_profile
-RUN . /opt/carma/configure
-RUN env
+RUN /tmp/install-scripts
+#RUN bash -c /opt/carma/install-scripts
+RUN cat /etc/profile
+#RUN . /opt/carma/configure
+#RUN env
 
 #ENV PATH=${PATH}:/opt/voices
 #ENV PATH=${PATH}:/opt/voices/container-management
