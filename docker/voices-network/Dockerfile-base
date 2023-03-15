@@ -10,7 +10,7 @@ RUN apt-get install -y sudo git vim tree
 COPY install-scripts /tmp
 
 # Create user
-RUN useradd -m carma -G sudo
+RUN useradd -ms /bin/bash carma -G sudo
 RUN echo "carma ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers.d/carma
 USER carma
 

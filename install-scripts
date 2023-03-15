@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Parameters
-SYSTEM_ENV_SCRIPT=/etc/bash.bashrc
+SYSTEM_ENV_SCRIPT=/home/carma/.bashrc
+#/etc/bash.bashrc
 TARGET_USER=carma
 CARMA_INSTALL_ROOT=/opt/carma
 

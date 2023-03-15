@@ -1,3 +1,12 @@
 FROM voices-network-tools:latest
 
+RUN env
+
+ENV CARMA_INSTALL_ROOT=/opt/carma
+ENV CARMA_UTILITIES_ROOT=/opt/carma/carma-utilities
+ENV CARMA_SCRIPT_ROOT=/opt/carma/carma-utilities/scripts
+ENV CARMA_DOCKER_ROOT=/opt/carma/carma-utilities/docker
+
+ENV PATH="${PATH}:/opt/carma/carma-utils/scripts:/opt/carma/carma-utils/scripts/scripts-base:/opt/carma/carma-utils/scripts/support:/opt/carma/carma-utils/scripts/voices:/opt/carma/carma-utils/scripts/voices/process:/opt/carma/carma-utils/scripts/voices/process/mw-scripts:/opt/carma/carma-utils/scripts/voices/process/net-scripts"
+
 RUN net-vpnclient install
