@@ -16,6 +16,7 @@ USER carma
 
 # Install scripts
 RUN /tmp/install-scripts
+COPY scripts /opt/carma/carma-utils/scripts
 
 # Added to get python2 and python2-pip
 #RUN add-apt-repository universe
@@ -26,4 +27,4 @@ RUN /tmp/install-scripts
 #RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
 #RUN python2 get-pip.py
 
-WORKDIR ${HOME}
+#WORKDIR ${HOME}

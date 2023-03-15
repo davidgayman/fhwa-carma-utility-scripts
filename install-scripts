@@ -77,5 +77,5 @@ touch  ~/.ssh/authorized_keys  ~/.ssh/known_hosts
 chmod 640 ~/.ssh/authorized_keys
 chmod 640 ~/.ssh/known_hosts
 
-# Download the carma-utils repository
-git clone git@github.com:davidgayman/carma-utils-dg.git $CARMA_UTILITIES_ROOT
+## Download the carma-utils repository
+#git clone git@github.com:davidgayman/carma-utils-dg.git $CARMA_UTILITIES_ROOT

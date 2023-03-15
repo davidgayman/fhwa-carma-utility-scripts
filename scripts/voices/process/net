@@ -32,7 +32,7 @@ COMMAND_LIST["monitor"]="Perform a pre-configured network test using ICMP ping t
 
 get-ip() {
   # https://stackoverflow.com/a/49552792
-  ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'
+  sudo ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'
 }
 
 # Single entrypoint to registering this node to the VOICES network.
