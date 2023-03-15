@@ -1,5 +1,5 @@
 #!/bin/bash
-source $CARMA_SCRIPTS_BASE/carma-container-management
+source carma-container-management
 
 # Configure a Sonatype Nexus binary repository
 DOCKERFILE_FULL_PATH=$CARMA_DOCKER_ROOT/support/Dockerfile-support-nexus

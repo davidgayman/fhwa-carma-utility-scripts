@@ -1,6 +1,5 @@
 #!/bin/bash
-source $CARMA_SCRIPTS_BASE/carma-bashbase
-echo "container-management called with args: $@"
+source ${CARMA_SCRIPT_ROOT}/scripts-base/carma-bashbase
 
 # ------------------------------------------------------------------------------
 # Constants
@@ -12,8 +11,8 @@ DOCKER_BUILD_SPACE=$CARMA_UTILITIES_ROOT
 
 # Container arguments
 DOCKER_VOLUME_MAPPING="-v ${HOST_INSTALLATION_PACKAGE_PATH}:${HOST_INSTALLATION_PACKAGE_PATH}"
-#DOCKER_CONTAINER_ENV="--env CARMA_SCRIPT_ROOT=$CARMA_SCRIPT_ROOT --env CARMA_SCRIPTS_BASE=$CARMA_SCRIPTS_BASE"
-#DOCKER_BUILD_ENV="--build-arg CARMA_SCRIPT_ROOT=$CARMA_SCRIPT_ROOT --build-arg CARMA_SCRIPTS_BASE=$CARMA_SCRIPTS_BASE"
+#DOCKER_CONTAINER_ENV="--env CARMA_SCRIPT_ROOT=$CARMA_SCRIPT_ROOT"
+#DOCKER_BUILD_ENV="--build-arg CARMA_SCRIPT_ROOT=$CARMA_SCRIPT_ROOT"
 
 # ------------------------------------------------------------------------------
 # Parameters

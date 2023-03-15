@@ -4,7 +4,7 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV TZ="America/New_York"
 RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y git vim tree htop
+RUN apt-get install -y sudo git vim tree htop
 
 # Copy commands into the target
 #COPY scripts /opt/carma/scripts
@@ -14,8 +14,12 @@ COPY install-scripts /tmp
 
 # Create user
 RUN useradd -m carma -G sudo
-RUN chown carma:carma -R /opt/carma
+RUN echo "carma ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers.d/carma
+#RUN chown carma:carma -R /opt/carma
 USER carma
+RUN whoami
+RUN groups
+RUN sudo ls
 
 # Install scripts
 RUN /tmp/install-scripts

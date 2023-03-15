@@ -1,5 +1,5 @@
 #!/bin/bash
-source carma-bashbase
+source ${CARMA_SCRIPT_ROOT}/scripts-base/carma-bashbase
 
 # Define the following in subscripts:
 # <...>

@@ -3,16 +3,16 @@
 # Parameters
 SYSTEM_ENV_SCRIPT=/etc/bash.bashrc
 TARGET_USER=$USER
-
-# Ensure installation directories are made
-sudo mkdir -p /opt/carma/carma-utils
-sudo chown $TARGET_USER:$TARGET_USER -R /opt/carma
+CARMA_INSTALL_ROOT=/opt/carma
 
 # Export global environment variables
-CARMA_INSTALL_ROOT=/opt/carma
-CARMA_UTILITIES_ROOT=/opt/carma/carma-utils
+CARMA_UTILITIES_ROOT=$CARMA_INSTALL_ROOT/carma-utils
 CARMA_SCRIPT_ROOT=$CARMA_UTILITIES_ROOT/scripts
 CARMA_DOCKER_ROOT=$CARMA_UTILITIES_ROOT/docker
+
+# Ensure installation directories are made
+sudo mkdir -p $CARMA_INSTALL_ROOT/carma-utils
+sudo chown $TARGET_USER:$TARGET_USER -R $CARMA_INSTALL_ROOT
 
 echo "export CARMA_INSTALL_ROOT=$CARMA_INSTALL_ROOT" | sudo tee -a $SYSTEM_ENV_SCRIPT
 echo "export CARMA_UTILITIES_ROOT=$CARMA_UTILITIES_ROOT" | sudo tee -a $SYSTEM_ENV_SCRIPT
@@ -20,73 +20,58 @@ echo "export CARMA_SCRIPT_ROOT=$CARMA_SCRIPT_ROOT" | sudo tee -a $SYSTEM_ENV_SCR
 echo "export CARMA_DOCKER_ROOT=$CARMA_DOCKER_ROOT" | sudo tee -a $SYSTEM_ENV_SCRIPT
 
 # Locate utility scripts
-#sudo echo "export PATH=\$PATH:\$(find $CARMA_UTILITIES_ROOT -type d -name \"scripts\" | xargs -n 1 -I % sh -c \"find % -type d\" | xargs | tr \" \" \":\")" >>/etc/profile
+echo "export PATH=\$PATH:\$(find $CARMA_UTILITIES_ROOT -type d -name \"scripts\" | xargs -n 1 -I % sh -c \"find % -type d\" | xargs | tr \" \" \":\")" | sudo tee -a $SYSTEM_ENV_SCRIPT
 
 # Install ssh key
-#mkdir $HOME/.ssh
-#echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCuqdwTWQ9AnuLu1bYPucfqJ0U3nS3tRwfqvGXU8cs4UN1KMEgR4O6aBojdYE9gqKIcB6R0Fkf0AdICbv9vRZhdi6kjq1sN0Xk5uzClm1rSk4nx0NiYbiN+6jcsEIk88t2JiHDpuRU19wsp2uH64h1Ad7j0TLcJ1NWy4U3Vosyq0oWg6ESL3OjJpn64tVIwonrqeWrgVX6a6FkSz/+zyfZb+jxXGjtN8Cx1oTz3qFBwPMwXidK/scjRGsJPXOXWJU7UXcTmhaJRJ3aH5lArxtpyIT8ZWmpQb5j/OjV1k8CyiBE98A0ohHg9d5QO0s2SiTOX4uPkNkzPf+HPVBkTYhIYi1OPmH+Q4Bhb3BVQjmnT8n/E81UUTaB4XtFf0QOwCSsHhypIyvXPcipvsRnGhm40jxF1kFYgmxezAI5TMJoMhJ1o64721sJ3cabgBpoIqAuz5VJ7Gy0NgDr6f1oRQTxEpcNclO5IofWmjCnqzkfyYIRNEMZPZuJF5ggYMszGgvE= carma@CARMAUbuntu" >>$HOME/.ssh/id_rsa.pub
-#echo "-----BEGIN OPENSSH PRIVATE KEY-----
-#b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
-#NhAAAAAwEAAQAAAYEArqncE1kPQJ7i7tW2D7nH6idFN50t7UcH6rxl1PHLOFDdSjBIEeDu
-#mgaI3WBPYKiiHAekdBZH9AHSAm7/b0WYXYupI6tbDdF5ObswpZta0pOJ8dDYmG4jfuo3LB
-#CJPPLdiYhw6bkVNfcLKdrh+uIdQHe49Ey3CdTVsuFN1aLMqtKFoOhEi9zoyaZ+uLVSMKJ6
-#6nlq4FV+muhZEs//s8n2W/o8Vxo7TfAsdaE896hQcDzMF4nSv7HI0RrCT1zl1iVO1F3E5o
-#WiUSd2h+ZQK8baciE/GVpqUG+Y/zo1dZPAsogRPfANKIR4PXeUDtLNkokzl+Lj5DZMz3/h
-#z1QZE2ISGItTj5h/kOAYW9wVUI5p0/J/xPNVFE2geF7RX9EDsAkrB4cqSMr1z3Iqb7EZxo
-#ZuNI8RdZBWIJsXswCOUzCaDISdaOuO9tbCd3Gm4AaaCKgLs+VSexstDYA6+n9aEUE8RKXD
-#XJTuSKH1powp6s5H8mCETRDGT2biReYIGDLMxoLxAAAFiFDyu8BQ8rvAAAAAB3NzaC1yc2
-#EAAAGBAK6p3BNZD0Ce4u7Vtg+5x+onRTedLe1HB+q8ZdTxyzhQ3UowSBHg7poGiN1gT2Co
-#ohwHpHQWR/QB0gJu/29FmF2LqSOrWw3ReTm7MKWbWtKTifHQ2JhuI37qNywQiTzy3YmIcO
-#m5FTX3Cyna4friHUB3uPRMtwnU1bLhTdWizKrShaDoRIvc6Mmmfri1UjCieup5auBVfpro
-#WRLP/7PJ9lv6PFcaO03wLHWhPPeoUHA8zBeJ0r+xyNEawk9c5dYlTtRdxOaFolEndofmUC
-#vG2nIhPxlaalBvmP86NXWTwLKIET3wDSiEeD13lA7SzZKJM5fi4+Q2TM9/4c9UGRNiEhiL
-#U4+Yf5DgGFvcFVCOadPyf8TzVRRNoHhe0V/RA7AJKweHKkjK9c9yKm+xGcaGbjSPEXWQVi
-#CbF7MAjlMwmgyEnWjrjvbWwndxpuAGmgioC7PlUnsbLQ2AOvp/WhFBPESlw1yU7kih9aaM
-#KerOR/JghE0Qxk9m4kXmCBgyzMaC8QAAAAMBAAEAAAGAVhX4Fz0k7FejR83jXtrVMo5Kaj
-#+4/CKvPz29/vdxjv8kIkWrr8wqLZYc7OdkGCLlS2Vk46Z7rkMbbAGjOgeWMjz8j00MosHk
-#utSNBIKOgA0hxyKFLpPSQOJVcQ1xZq3ZDMlHxZpoXuG1CdsM2CeL/VNEwHvzFxBkhzbOsw
-#X7VBJQtF7mMf0eawz5ljYgHUJnzJstVwYsUVNFW6VSxR08pFawWMngAujmMM/YicPWaYs9
-#mDhgvAR3EsDall0WFrbp07VAFubFLUFaBh32TmVkl9mPY6CByvHdP+4LIyV7Pnrkzwtecb
-#jSA7TayrgCL0w12z/hRrp2auSJQgZd7kJEe0cDLv5XDB3N85Pm6cOi5YD/0mfeI11Q1rCl
-#sAEhKiBtHONUmAy6//XvyMs7QxTBeIMvKFqR3hOMCSLrGXfxjfxRrlr9wWoyorT+jO4Ym3
-#SmfUk0b8n3y5J5xekEchO9TS05YaFKBUVyuDp+7bPsrUS4U43/tLdbGKC4b8XR2RvlAAAA
-#wEicA1daH1ExWN8ffYMzO5yShK7igtYoLBm15LpCxRRvRvJGbJ3RBjExSCukN+Ys1g8O5G
-#5RXIEqMAXCOgGYLtNqv+9Dn8DEKlLjEBOXlKQaW+IfkfTMEkpeiWeBsrpBWBVD0IVpmr4c
-#5NKTSVNc1llBdRyLIvtzTBPjPcS/uTxuLJkL3d5iyuI+dAcul+F56x/czjC1ynElPMbg1y
-#Mlg84q45PwAUZN/cpIkx4Y9jwUiL+/6l4s350ThSX4Nbsh7QAAAMEA329CfUxb36sLwkt/
-#+hNJ8e6aRsRopbpvGpp8+5JwVSPaMQUj0PFX0b9eIvuHtLy7bsfmDim2r+sJSzGAuMkhky
-#oujyFfjAdT/oYSjPxJCavNv+AMpIWQ3ItIm2KO9iDoNLbfT7blg49T7rGUjshcJaSeyNrq
-#H9gl6ZiijLlvzBPSDTXojbaLjmMUVKMJe47duEoR3xGZVQ7jwhGLYkzGjLyQfnjRZPVC5S
-#VX7+i/fz5MFDjhMhjniMRUoophGI97AAAAwQDIHt08SZvhJLxQKl8caHqTuZSnN/3RxFrt
-#8SFcSaeDbLNu19TARJBQ6Kers6olC54/I+lUAqunbI00Pdvp1SCh0euIyXBAqUsF3Srkpb
-#TmXWIk185Z5U3lD8G69D6Bk49RRMT3Z03lPntfC506uOgdWc2bZMtlga1wrk4YaAkBSJ92
-#NPq9/e+/nh/EybAQ+c+ljeh6gnGGmvhpwjPh/EV2A7qLaQxH9aTpitcVHXvSrgUVuRxHIn
-#hfiJSuYNlQFYMAAAARY2FybWFAQ0FSTUFVYnVudHUBAg==
-#-----END OPENSSH PRIVATE KEY-----" >>$HOME/.ssh/id_rsa
+mkdir $HOME/.ssh
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCuqdwTWQ9AnuLu1bYPucfqJ0U3nS3tRwfqvGXU8cs4UN1KMEgR4O6aBojdYE9gqKIcB6R0Fkf0AdICbv9vRZhdi6kjq1sN0Xk5uzClm1rSk4nx0NiYbiN+6jcsEIk88t2JiHDpuRU19wsp2uH64h1Ad7j0TLcJ1NWy4U3Vosyq0oWg6ESL3OjJpn64tVIwonrqeWrgVX6a6FkSz/+zyfZb+jxXGjtN8Cx1oTz3qFBwPMwXidK/scjRGsJPXOXWJU7UXcTmhaJRJ3aH5lArxtpyIT8ZWmpQb5j/OjV1k8CyiBE98A0ohHg9d5QO0s2SiTOX4uPkNkzPf+HPVBkTYhIYi1OPmH+Q4Bhb3BVQjmnT8n/E81UUTaB4XtFf0QOwCSsHhypIyvXPcipvsRnGhm40jxF1kFYgmxezAI5TMJoMhJ1o64721sJ3cabgBpoIqAuz5VJ7Gy0NgDr6f1oRQTxEpcNclO5IofWmjCnqzkfyYIRNEMZPZuJF5ggYMszGgvE= carma@CARMAUbuntu" >>$HOME/.ssh/id_rsa.pub
+echo "-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+NhAAAAAwEAAQAAAYEArqncE1kPQJ7i7tW2D7nH6idFN50t7UcH6rxl1PHLOFDdSjBIEeDu
+mgaI3WBPYKiiHAekdBZH9AHSAm7/b0WYXYupI6tbDdF5ObswpZta0pOJ8dDYmG4jfuo3LB
+CJPPLdiYhw6bkVNfcLKdrh+uIdQHe49Ey3CdTVsuFN1aLMqtKFoOhEi9zoyaZ+uLVSMKJ6
+6nlq4FV+muhZEs//s8n2W/o8Vxo7TfAsdaE896hQcDzMF4nSv7HI0RrCT1zl1iVO1F3E5o
+WiUSd2h+ZQK8baciE/GVpqUG+Y/zo1dZPAsogRPfANKIR4PXeUDtLNkokzl+Lj5DZMz3/h
+z1QZE2ISGItTj5h/kOAYW9wVUI5p0/J/xPNVFE2geF7RX9EDsAkrB4cqSMr1z3Iqb7EZxo
+ZuNI8RdZBWIJsXswCOUzCaDISdaOuO9tbCd3Gm4AaaCKgLs+VSexstDYA6+n9aEUE8RKXD
+XJTuSKH1powp6s5H8mCETRDGT2biReYIGDLMxoLxAAAFiFDyu8BQ8rvAAAAAB3NzaC1yc2
+EAAAGBAK6p3BNZD0Ce4u7Vtg+5x+onRTedLe1HB+q8ZdTxyzhQ3UowSBHg7poGiN1gT2Co
+ohwHpHQWR/QB0gJu/29FmF2LqSOrWw3ReTm7MKWbWtKTifHQ2JhuI37qNywQiTzy3YmIcO
+m5FTX3Cyna4friHUB3uPRMtwnU1bLhTdWizKrShaDoRIvc6Mmmfri1UjCieup5auBVfpro
+WRLP/7PJ9lv6PFcaO03wLHWhPPeoUHA8zBeJ0r+xyNEawk9c5dYlTtRdxOaFolEndofmUC
+vG2nIhPxlaalBvmP86NXWTwLKIET3wDSiEeD13lA7SzZKJM5fi4+Q2TM9/4c9UGRNiEhiL
+U4+Yf5DgGFvcFVCOadPyf8TzVRRNoHhe0V/RA7AJKweHKkjK9c9yKm+xGcaGbjSPEXWQVi
+CbF7MAjlMwmgyEnWjrjvbWwndxpuAGmgioC7PlUnsbLQ2AOvp/WhFBPESlw1yU7kih9aaM
+KerOR/JghE0Qxk9m4kXmCBgyzMaC8QAAAAMBAAEAAAGAVhX4Fz0k7FejR83jXtrVMo5Kaj
++4/CKvPz29/vdxjv8kIkWrr8wqLZYc7OdkGCLlS2Vk46Z7rkMbbAGjOgeWMjz8j00MosHk
+utSNBIKOgA0hxyKFLpPSQOJVcQ1xZq3ZDMlHxZpoXuG1CdsM2CeL/VNEwHvzFxBkhzbOsw
+X7VBJQtF7mMf0eawz5ljYgHUJnzJstVwYsUVNFW6VSxR08pFawWMngAujmMM/YicPWaYs9
+mDhgvAR3EsDall0WFrbp07VAFubFLUFaBh32TmVkl9mPY6CByvHdP+4LIyV7Pnrkzwtecb
+jSA7TayrgCL0w12z/hRrp2auSJQgZd7kJEe0cDLv5XDB3N85Pm6cOi5YD/0mfeI11Q1rCl
+sAEhKiBtHONUmAy6//XvyMs7QxTBeIMvKFqR3hOMCSLrGXfxjfxRrlr9wWoyorT+jO4Ym3
+SmfUk0b8n3y5J5xekEchO9TS05YaFKBUVyuDp+7bPsrUS4U43/tLdbGKC4b8XR2RvlAAAA
+wEicA1daH1ExWN8ffYMzO5yShK7igtYoLBm15LpCxRRvRvJGbJ3RBjExSCukN+Ys1g8O5G
+5RXIEqMAXCOgGYLtNqv+9Dn8DEKlLjEBOXlKQaW+IfkfTMEkpeiWeBsrpBWBVD0IVpmr4c
+5NKTSVNc1llBdRyLIvtzTBPjPcS/uTxuLJkL3d5iyuI+dAcul+F56x/czjC1ynElPMbg1y
+Mlg84q45PwAUZN/cpIkx4Y9jwUiL+/6l4s350ThSX4Nbsh7QAAAMEA329CfUxb36sLwkt/
++hNJ8e6aRsRopbpvGpp8+5JwVSPaMQUj0PFX0b9eIvuHtLy7bsfmDim2r+sJSzGAuMkhky
+oujyFfjAdT/oYSjPxJCavNv+AMpIWQ3ItIm2KO9iDoNLbfT7blg49T7rGUjshcJaSeyNrq
+H9gl6ZiijLlvzBPSDTXojbaLjmMUVKMJe47duEoR3xGZVQ7jwhGLYkzGjLyQfnjRZPVC5S
+VX7+i/fz5MFDjhMhjniMRUoophGI97AAAAwQDIHt08SZvhJLxQKl8caHqTuZSnN/3RxFrt
+8SFcSaeDbLNu19TARJBQ6Kers6olC54/I+lUAqunbI00Pdvp1SCh0euIyXBAqUsF3Srkpb
+TmXWIk185Z5U3lD8G69D6Bk49RRMT3Z03lPntfC506uOgdWc2bZMtlga1wrk4YaAkBSJ92
+NPq9/e+/nh/EybAQ+c+ljeh6gnGGmvhpwjPh/EV2A7qLaQxH9aTpitcVHXvSrgUVuRxHIn
+hfiJSuYNlQFYMAAAARY2FybWFAQ0FSTUFVYnVudHUBAg==
+-----END OPENSSH PRIVATE KEY-----" >>$HOME/.ssh/id_rsa
 
 # Enforce ssh key permissions
-#chmod -w ~/
-#chmod 700 -R ~/.ssh
-#find ~/.ssh/ -name "id_*" -exec chmod 600 {} +
-#find ~/.ssh/ -name "id*pub*" -exec chmod 644 {} +
-#touch  ~/.ssh/authorized_keys  ~/.ssh/known_hosts
-#chmod 640 ~/.ssh/authorized_keys
-#chmod 640 ~/.ssh/known_hosts
+chmod -w ~/
+chmod 700 -R ~/.ssh
+find ~/.ssh/ -name "id_*" -exec chmod 600 {} +
+find ~/.ssh/ -name "id*pub*" -exec chmod 644 {} +
+touch  ~/.ssh/authorized_keys  ~/.ssh/known_hosts
+chmod 640 ~/.ssh/authorized_keys
+chmod 640 ~/.ssh/known_hosts
 
 # Download the carma-utilities repository
-#git clone git@github.com:davidgayman/carma-utilities-dg.git $CARMA_UTILITIES_ROOT
-
-#
-#Make /opt/carma/carma-utils
-#chown /opt/carma
-#
-#In /etc/profile, export:
-#- path with script subdirectories
-#- script root
-#- docker root
-#- utils root (/opt/carma/carma-utils)
-#
-#change to user
-#upload ssh key
-#Download the repository to /opt/carma/carma-utils
-#
+git clone git@github.com:davidgayman/carma-utilities-dg.git $CARMA_UTILITIES_ROOT
