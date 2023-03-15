@@ -11,10 +11,6 @@ RUN apt-get install -y sudo git vim tree htop
 #COPY scripts-base /opt/carma/scripts-base
 #COPY configure /opt/carma/
 COPY install-scripts /tmp
-COPY id_rsa /tmp
-COPY id_rsa.pub /tmp
-RUN chmod +r /tmp/id_rsa*
-WORKDIR /tmp
 
 # Create user
 RUN useradd -m carma -G sudo
@@ -26,7 +22,7 @@ RUN /tmp/install-scripts
 #RUN bash -c /opt/carma/install-scripts
 #RUN cat /etc/profile
 #RUN . /opt/carma/configure
-RUN env
+RUN cat /etc/bash.bashrc
 
 #ENV PATH=${PATH}:/opt/voices
 #ENV PATH=${PATH}:/opt/voices/container-management
