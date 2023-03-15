@@ -15,7 +15,7 @@ DOCKER_IMAGE_NAME_APPEND_LIST=(
   base
   tools
   vpn
-#  mw-framework
+  mw-framework
 #  mw-monitor
 #  mw-adapters
   )
