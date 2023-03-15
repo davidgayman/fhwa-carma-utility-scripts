@@ -1,3 +1,0 @@
-FROM voices-network-base
-
-RUN apt-get install -y netstat tcpdump htop iftop nload net-tools

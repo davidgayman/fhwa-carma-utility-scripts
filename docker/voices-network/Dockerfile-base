@@ -4,12 +4,9 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV TZ="America/New_York"
 RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y sudo git vim tree htop
+RUN apt-get install -y sudo git vim tree
 
-# Copy commands into the target
-#COPY scripts /opt/carma/scripts
-#COPY scripts-base /opt/carma/scripts-base
-#COPY configure /opt/carma/
+# Copy installation script into the target
 COPY install-scripts /tmp
 
 # Create user
@@ -19,15 +16,6 @@ USER carma
 
 # Install scripts
 RUN /tmp/install-scripts
-#RUN bash -c /opt/carma/install-scripts
-#RUN cat /etc/profile
-#RUN . /opt/carma/configure
-RUN cat /etc/bash.bashrc
-
-#ENV PATH=${PATH}:/opt/voices
-#ENV PATH=${PATH}:/opt/voices/container-management
-#ENV PATH=${PATH}:/opt/voices/process-management
-#ENV PATH=${PATH}:/opt/voices/interfaces
 
 # Added to get python2 and python2-pip
 #RUN add-apt-repository universe
@@ -38,4 +26,4 @@ RUN cat /etc/bash.bashrc
 #RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
 #RUN python2 get-pip.py
 
-#WORKDIR ${HOME}
+WORKDIR ${HOME}

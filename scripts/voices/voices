@@ -1,0 +1,22 @@
+#!/bin/bash
+source carma-container-management
+
+DOCKER_CONTAINER_NAME=voices-network
+
+DOCKER_IMAGE_NAME_APPEND_LIST=(
+  base
+  tools
+#  vpn
+#  mw-framework
+#  mw-monitor
+#  mw-adapters
+  )
+
+DOCKER_CONTAINER_RUN_OPTIONS=
+
+start() {
+  # How will we specialize the starting procedure for the EM node?
+  echo "voices start"
+}
+
+main $@
