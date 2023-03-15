@@ -1,4 +1,43 @@
 #!/bin/bash
-THIS_SCRIPT_DIR=$(dirname $BASH_SOURCE)
 
-echo "source $THIS_SCRIPT_DIR/configure" >>~/.bash_profile
+sudo mkdir -p /opt/carma/carma-utils
+sudo chown -r /opt/carma
+
+sudo In /etc/profile, export:
+- path with script subdirectories
+- script root
+- docker root
+- utils root (/opt/carma/carma-utils)
+
+upload ssh key
+Download the repository to /opt/carma/carma-utils
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+#Make /opt/carma/carma-utils
+#chown /opt/carma
+#
+#In /etc/profile, export:
+#- path with script subdirectories
+#- script root
+#- docker root
+#- utils root (/opt/carma/carma-utils)
+#
+#change to user
+#upload ssh key
+#Download the repository to /opt/carma/carma-utils
+#
+
+

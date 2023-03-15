@@ -17,3 +17,36 @@ Internal components are integrated elsewhere.
 # Testing
 
 cd $HOME/code/stol/carma-utilities-dg/voices/scripts/container-management; ./voices devsh
+
+
+
+
+
+
+
+# Environment Variables
+
+## Exterior
+
+- script root
+- docker root
+- config root (repository root)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
