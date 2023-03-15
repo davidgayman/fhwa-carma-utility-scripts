@@ -24,13 +24,23 @@ echo "bashbase called with args: $@"
 # . Implement functions with matching the command names.
 # . Call main at the end of your script: `main $@`
 
-
 # ------------------------------------------------------------------------------
 # Constants
 # ------------------------------------------------------------------------------
 
+# Locate this base script
 THIS_COMMAND=$(basename $BASH_SOURCE)
 THIS_SCRIPT_DIR=$(dirname $BASH_SOURCE)
+
+# Identify critical directories
+export CARMA_UTILITIES_ROOT=$THIS_SCRIPT_DIR/..
+export CARMA_DOCKER_ROOT=$CARMA_UTILITIES_ROOT/docker
+export CARMA_SCRIPT_ROOT=$CARMA_UTILITIES_ROOT/scripts
+export CARMA_SCRIPTS_BASE=$CARMA_UTILITIES_ROOT/scripts-base
+
+# ------------------------------------------------------------------------------
+# Parameters
+# ------------------------------------------------------------------------------
 
 # Define a set of commands
 declare -A COMMAND_LIST
@@ -39,7 +49,6 @@ COMMAND_LIST["help"]="Print this help information."
 # Define a set of sub-commands
 declare -A SUBCOMMAND_LIST
 SUBCOMMAND_LIST["all"]="Run the command on all subcommands."
-
 
 # ------------------------------------------------------------------------------
 # Process Arguments
@@ -103,7 +112,7 @@ verify_implementation() {
   # Enforce that all commands exist
   for COM in ${!COMMAND_LIST[@]}; do
     if [[ ! $(type -t $COM) == "function" ]]; then
-      echo "Command $COM does not exist - ensure a function with this name is defined."
+      echo "ERROR: Command \`$COM\` does not exist. Ensure this script provides a function with this name."
       exit 1
     fi
   done

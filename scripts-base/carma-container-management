@@ -8,23 +8,23 @@ echo "container-management called with args: $@"
 # ------------------------------------------------------------------------------
 
 # Paths
-INSTALLATION_PACKAGE_PATH=$HOME/carma/installation-packages
-DOCKER_BUILD_SPACE=/tmp/docker-build
+HOST_INSTALLATION_PACKAGE_PATH=$HOME/carma/installation-packages
+DOCKER_BUILD_SPACE=$CARMA_UTILITIES_ROOT
 
 # Container arguments
-DOCKER_VOLUME_MAPPING="-v ${INSTALLATION_PACKAGE_PATH}:${INSTALLATION_PACKAGE_PATH}"
-CONTAINER_ENV="--env CARMA_SCRIPT_ROOT=$CARMA_SCRIPT_ROOT --env CARMA_SCRIPTS_BASE=$CARMA_SCRIPTS_BASE"
-
+DOCKER_VOLUME_MAPPING="-v ${HOST_INSTALLATION_PACKAGE_PATH}:${HOST_INSTALLATION_PACKAGE_PATH}"
+#DOCKER_CONTAINER_ENV="--env CARMA_SCRIPT_ROOT=$CARMA_SCRIPT_ROOT --env CARMA_SCRIPTS_BASE=$CARMA_SCRIPTS_BASE"
+#DOCKER_BUILD_ENV="--build-arg CARMA_SCRIPT_ROOT=$CARMA_SCRIPT_ROOT --build-arg CARMA_SCRIPTS_BASE=$CARMA_SCRIPTS_BASE"
 
 # ------------------------------------------------------------------------------
 # Parameters
 # ------------------------------------------------------------------------------
 
 # Define the following in subscripts:
-# DOCKERFILE_FULL_PATH
-# IMAGE_NAME
-# CONTAINER_NAME
-# CONTAINER_RUN_OPTIONS
+# DOCKER_DOCKERFILE_FULL_PATH
+# DOCKER_IMAGE_NAME
+# DOCKER_CONTAINER_NAME
+# DOCKER_CONTAINER_RUN_OPTIONS
 
 
 # ------------------------------------------------------------------------------
@@ -46,17 +46,16 @@ COMMAND_LIST["run"]="Run the service."
 build() {
   echo "container-management building"
   echo "DOCKER_VOLUME_MAPPING: $DOCKER_VOLUME_MAPPING"
-  echo "DOCKERFILE_FULL_PATH: $DOCKERFILE_FULL_PATH"
-  echo "CONTAINER_NAME: $CONTAINER_NAME"
+  echo "DOCKER_DOCKERFILE_FULL_PATH: $DOCKER_DOCKERFILE_FULL_PATH"
+  echo "DOCKER_CONTAINER_NAME: $DOCKER_CONTAINER_NAME"
 
-  mkdir /tmp/docker-build
-  sudo docker build $CONTAINER_ENV -t $IMAGE_NAME:latest -f $DOCKERFILE_FULL_PATH $DOCKER_BUILD_SPACE
+  sudo docker build -t $DOCKER_IMAGE_NAME:latest -f $DOCKER_DOCKERFILE_FULL_PATH $DOCKER_BUILD_SPACE
 
-#  docker build $DOCKERFILE_FULL_PATH $IMAGE_NAME
+#  docker build $DOCKERFILE_FULL_PATH $DOCKER_IMAGE_NAME
 
+#  ENV HOST_HOST_INSTALLATION_PACKAGE_PATH=$HOME/voices-large-files
 #  ENV HOST_INSTALLATION_PACKAGE_PATH=$HOME/voices-large-files
-#  ENV INSTALLATION_PACKAGE_PATH=$HOME/voices-large-files
-#  sudo docker run --rm -v HOST_INSTALLATION_PACKAGE_PATH:INSTALLATION_PACKAGE_PATH -v /Users/$INSTALL_TENA_USERNAME/$INSTALL_TENA_DIR:/home tena:v2xhub /home/Downloads/TENA-MiddlewareSDK-v6.0.8.B@Product@u2004-gcc9-64-va0b09d44.bin -i /home --auto
+#  sudo docker run --rm -v HOST_HOST_INSTALLATION_PACKAGE_PATH:HOST_INSTALLATION_PACKAGE_PATH -v /Users/$INSTALL_TENA_USERNAME/$INSTALL_TENA_DIR:/home tena:v2xhub /home/Downloads/TENA-MiddlewareSDK-v6.0.8.B@Product@u2004-gcc9-64-va0b09d44.bin -i /home --auto
 #
 #  docker build ${DOCKER_VOLUME_MAPPING} --force-rm --rm -f ./Dockerfile -t tena:carla .
 }
@@ -64,6 +63,12 @@ build() {
 #push() {
 #  docker push
 #}
+
+sh() {
+  echo "container-management sh"
+  run
+#  docker exec ${DOCKER_VOLUME_MAPPING} -it $CONTAINER_NAME clion
+}
 
 devsh() {
   echo "container-management devsh"
@@ -83,7 +88,7 @@ install() {
 #
 run() {
   echo "container-management run"
-  sudo docker run $CONTAINER_RUN_OPTIONS $DOCKER_VOLUME_MAPPING --name $CONTAINER_NAME $IMAGE_NAME
+  sudo docker run $DOCKER_CONTAINER_RUN_OPTIONS $DOCKER_VOLUME_MAPPING --name $DOCKER_CONTAINER_NAME $DOCKER_IMAGE_NAME
 #  docker run ${DOCKER_VOLUME_MAPPING} $IMAGE_NAME as $CONTAINER_NAME $CONTAINER_RUN_OPTIONS
 }
 #

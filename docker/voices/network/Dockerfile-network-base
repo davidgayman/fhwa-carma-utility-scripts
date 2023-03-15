@@ -1,13 +1,27 @@
 FROM ubuntu:20.04
 
 # Set up system environment
-ENV DEBIAN_FRONTEND="noninteractive" TZ="America/New_York"
+ENV DEBIAN_FRONTEND="noninteractive"
+ENV TZ="America/New_York"
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get install -y git vim tree htop
 
 # Copy commands into the target
-COPY ${ENV:CARMA_SCRIPT_ROOT}/ /opt/voices/
+COPY scripts /opt/carma/scripts
+COPY scripts-base /opt/carma/scripts-base
+COPY configure /opt/carma/
+COPY install-scripts /opt/carma/
 
-RUN apt-get install -y tree
-RUN tree -a /home
+# Create user
+RUN useradd -m carma -G sudo
+RUN chown carma:carma -R /opt/carma
+USER carma
+
+# Install scripts
+RUN bash -c /opt/carma/install-scripts
+RUN cat $HOME/.bash_profile
+RUN . /opt/carma/configure
+RUN env
 
 #ENV PATH=${PATH}:/opt/voices
 #ENV PATH=${PATH}:/opt/voices/container-management
@@ -23,4 +37,4 @@ RUN tree -a /home
 #RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
 #RUN python2 get-pip.py
 
-WORKDIR ${HOME}
+#WORKDIR ${HOME}

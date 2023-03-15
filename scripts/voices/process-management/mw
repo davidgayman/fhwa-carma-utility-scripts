@@ -21,19 +21,19 @@ install() {
 #      dpkg --force-overwrite -i 'TENA-Canary-v1.0.13/TENA-Canary-v1.0.13@Product@u2004-gcc9-64-vdbd87712.deb'
 
     #TENA Middleware
-    ${INSTALLATION_PACKAGE_PATH}/TENA-MiddlewareSDK-v${TENA_VERSION}.B@Product@${TENA_PLATFORM}-va0b09d44.bin -i /home --auto
+    ${HOST_INSTALLATION_PACKAGE_PATH}/TENA-MiddlewareSDK-v${TENA_VERSION}.B@Product@${TENA_PLATFORM}-va0b09d44.bin -i /home --auto
 
     #VUG Combined Distribution OM
-    ${INSTALLATION_PACKAGE_PATH}/VUG-VOICES-Combined-Distribution-v0.12.0@Product@${TENA_PLATFORM}-v1976e608.bin -i /home --auto
+    ${HOST_INSTALLATION_PACKAGE_PATH}/VUG-VOICES-Combined-Distribution-v0.12.0@Product@${TENA_PLATFORM}-v1976e608.bin -i /home --auto
 
     #TENA Boost
-    ${INSTALLATION_PACKAGE_PATH}/TENA-boost-v1.77.0.1@Product@${TENA_PLATFORM}-vall.bin -i /home --auto
+    ${HOST_INSTALLATION_PACKAGE_PATH}/TENA-boost-v1.77.0.1@Product@${TENA_PLATFORM}-vall.bin -i /home --auto
 
   elif [[ == "monitor" ]]; then
     # TODO Veriffy .org not .mil
     # middlewareSDK
-    dpkg -i --force-overwrite ${INSTALLATION_PACKAGE_PATH}/TENA-Console-v2.0.0@Product@u2004-gcc9-64-v51bb0659.deb
-    dpkg -i --force-overwrite ${INSTALLATION_PACKAGE_PATH}/TENA-Canary-v1.0.13@Product@u2004-gcc9-64-vdbd87712.deb
+    dpkg -i --force-overwrite ${HOST_INSTALLATION_PACKAGE_PATH}/TENA-Console-v2.0.0@Product@u2004-gcc9-64-v51bb0659.deb
+    dpkg -i --force-overwrite ${HOST_INSTALLATION_PACKAGE_PATH}/TENA-Canary-v1.0.13@Product@u2004-gcc9-64-vdbd87712.deb
 
   elif [[ == "adapters" ]]; then
 

@@ -1,13 +1,12 @@
 #!/bin/bash
-
+set -x
 # Source this script to configure the system to point to this repository's scripts
 
-THIS_SCRIPT_DIR=$(dirname $BASH_SOURCE)
+# Determine CARMA_UTILITIES_ROOT based on this script location; or use default.
+CARMA_UTILITIES_ROOT=$(dirname $BASH_SOURCE)
+if [[ -z $CARMA_UTILITIES_ROOT ]]; then
+  CARMA_UTILITIES_ROOT=/opt/carma
+fi
 
 # Add all script subdirectories to PATH
-export PATH=$PATH:$(find $THIS_SCRIPT_DIR -type d -name "scripts*" | xargs -n 1 -I % sh -c 'find % -type d' | xargs | tr ' ' ':')
-
-# Identify critical directories
-export CARMA_DOCKER_ROOT=$THIS_SCRIPT_DIR/docker
-export CARMA_SCRIPT_ROOT=$THIS_SCRIPT_DIR/scripts
-export CARMA_SCRIPTS_BASE=$THIS_SCRIPT_DIR/scripts-base
+export PATH=$PATH:$(find $CARMA_UTILITIES_ROOT -type d -name "scripts*" | xargs -n 1 -I % sh -c 'find % -type d' | xargs | tr ' ' ':')

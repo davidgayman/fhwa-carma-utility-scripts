@@ -2,12 +2,15 @@
 source carma-container-management
 
 echo "voices called with args: $@"
-echo "THIS_SCRIPT_DIR=$THIS_SCRIPT_DIR"
+echo "CARMA_UTILITIES_ROOT=$CARMA_UTILITIES_ROOT"
+echo "CARMA_DOCKER_ROOT=$CARMA_DOCKER_ROOT"
+echo "CARMA_SCRIPT_ROOT=$CARMA_SCRIPT_ROOT"
+echo "CARMA_SCRIPTS_BASE=$CARMA_SCRIPTS_BASE"
 
-DOCKERFILE_FULL_PATH=$CARMA_DOCKER_ROOT/voices/network/Dockerfile-network-base
-IMAGE_NAME=voices-network-base
-CONTAINER_NAME=voices-network-base
-CONTAINER_RUN_OPTIONS=
+DOCKER_DOCKERFILE_FULL_PATH=$CARMA_DOCKER_ROOT/voices/network/Dockerfile-network-base
+DOCKER_IMAGE_NAME=voices-network-base
+DOCKER_CONTAINER_NAME=voices-network-base
+DOCKER_CONTAINER_RUN_OPTIONS=
 
 start() {
   # How will we specialize the starting procedure for the EM node?
