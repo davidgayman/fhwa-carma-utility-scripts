@@ -1,15 +1,5 @@
 #!/bin/bash
 
-echo "bashbase called with args: $@"
-#echo "carma-bashbase 0: $0"
-#echo "carma-bashbase 1: $1"
-#echo "carma-bashbase basename 0: `basename $0`"
-#shift
-#echo "shift - carma-bashbase called with args: $@"
-#echo "carma-bashbase 0: $0"
-#echo "carma-bashbase basename 0: `basename $0`"
-#echo "carma-bashbase 1: $1"
-
 # ------------------------------------------------------------------------------
 # Description
 # ------------------------------------------------------------------------------

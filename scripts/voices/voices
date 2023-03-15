@@ -6,7 +6,7 @@ DOCKER_CONTAINER_NAME=voices-network
 DOCKER_IMAGE_NAME_APPEND_LIST=(
   base
   tools
-#  vpn
+  vpn
 #  mw-framework
 #  mw-monitor
 #  mw-adapters
