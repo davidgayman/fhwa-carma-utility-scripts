@@ -16,7 +16,7 @@ Internal components are integrated elsewhere.
 
 # Testing
 
-cd $HOME/code/stol/carma-utilities-dg/voices/scripts/container-management; ./voices devsh
+cd $HOME/code/stol/carma-utils-dg/voices/scripts/container-management; ./voices devsh
 
 
 

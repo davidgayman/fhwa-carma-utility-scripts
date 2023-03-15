@@ -3,9 +3,9 @@ source carma-container-management
 
 # Constants
 CONTAINER_CARMA_INSTALL_ROOT=/opt/carma
-CONTAINER_CARMA_UTILITIES_ROOT=/opt/carma/carma-utilities
-CONTAINER_CARMA_SCRIPT_ROOT=/opt/carma/carma-utilities/scripts
-CONTAINER_CARMA_DOCKER_ROOT=/opt/carma/carma-utilities/docker
+CONTAINER_CARMA_UTILITIES_ROOT=/opt/carma/carma-utils
+CONTAINER_CARMA_SCRIPT_ROOT=/opt/carma/carma-utils/scripts
+CONTAINER_CARMA_DOCKER_ROOT=/opt/carma/carma-utils/docker
 CONTAINER_PATH_ADDITIONS="/home/carma/code/stol/carma-utils/scripts:/home/carma/code/stol/carma-utils/scripts/scripts-base:/home/carma/code/stol/carma-utils/scripts/support:/home/carma/code/stol/carma-utils/scripts/voices:/home/carma/code/stol/carma-utils/scripts/voices/process:/home/carma/code/stol/carma-utils/scripts/voices/process/mw-scripts:/home/carma/code/stol/carma-utils/scripts/voices/process/net-scripts"
 
 # Parameters

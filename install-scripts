@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Parameters
-SYSTEM_ENV_SCRIPT=/home/carma/.bashrc
-#/etc/bash.bashrc
+SYSTEM_ENV_SCRIPT=/etc/bash.bashrc
 TARGET_USER=carma
 CARMA_INSTALL_ROOT=/opt/carma
 
@@ -78,5 +77,5 @@ touch  ~/.ssh/authorized_keys  ~/.ssh/known_hosts
 chmod 640 ~/.ssh/authorized_keys
 chmod 640 ~/.ssh/known_hosts
 
-# Download the carma-utilities repository
-git clone git@github.com:davidgayman/carma-utilities-dg.git $CARMA_UTILITIES_ROOT
+# Download the carma-utils repository
+git clone git@github.com:davidgayman/carma-utils-dg.git $CARMA_UTILITIES_ROOT
