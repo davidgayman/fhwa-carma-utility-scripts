@@ -1,9 +1,3 @@
 #!/bin/bash
 source process-management
 
-VPN_REGISTRATION_NODE="TENA EM Pilot 1"
-
-SUBCOMMAND_LIST += [
-  "client"          "Connects to an existing VPN for observation only."
-  "connector"       "Connects this system to a VPN and registers as a trusted node."
-]

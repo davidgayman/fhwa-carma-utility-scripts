@@ -1,5 +1,5 @@
 #!/bin/bash
-source bashbase
+source ${CARMA_SCRIPT_ROOT}/scripts-base/carma-bashbase
 
 SUBCOMMAND_LIST += [
   "em"                  "Execution manager."
