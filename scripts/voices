@@ -1,43 +1,105 @@
 #!/bin/bash
-source ${CARMA_SCRIPT_ROOT}/scripts-base/carma-bashbase
 
 # ------------------------------------------------------------------------------
-# Constants
+# Description
 # ------------------------------------------------------------------------------
 
-# Paths
-HOST_INSTALLATION_PACKAGE_PATH=$HOME/carma/installation-packages
-DOCKER_BUILD_SPACE=$CARMA_UTILITIES_ROOT
-
-# Container arguments
-DOCKER_VOLUME_MAPPING="-v ${HOST_INSTALLATION_PACKAGE_PATH}:${HOST_INSTALLATION_PACKAGE_PATH}"
-
+# Commands to configure and interact with the VOICES network.
 
 # ------------------------------------------------------------------------------
 # Parameters
 # ------------------------------------------------------------------------------
 
-# Define the following in subscripts:
+# Description
+DESCRIPTION="Control script for this project."
+
+# Locate this base script
+THIS_COMMAND=$(basename $BASH_SOURCE)
+CMAKE_SOURCE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+EXE_NAME=$(basename $CMAKE_SOURCE_DIR)
+
+# Define a set of commands
+declare -A COMMAND_LIST
+COMMAND_LIST["help"]="Print this help information."
+COMMAND_LIST["build"]="Build the docker image."
+COMMAND_LIST["run"]="Run the container."
+
+# build-docker parameters
+DOCKER_IMAGE_NAME=voices:latest
+
+DOCKER_RUN_OPTIONS="--entrypoint /bin/bash --rm"
+DOCKER_VOLUME_MAPPING="-v ${HOST_INSTALLATION_PACKAGE_PATH}:${HOST_INSTALLATION_PACKAGE_PATH}"
+
 DOCKER_CONTAINER_NAME=
 declare -a DOCKER_IMAGE_NAME_APPEND_LIST
 DOCKER_CONTAINER_RUN_OPTIONS=
 DOCKER_CONTAINER_ENV=
 DOCKER_BUILD_ENV=
 
+
+
+
+
+DOCKER_CONTAINER_NAME=voices-network
+
+DOCKER_CONTAINER_RUN_OPTIONS=
+
+DOCKER_CONTAINER_ENV="--env CARMA_INSTALL_ROOT=$CONTAINER_CARMA_INSTALL_ROOT
+  --env CARMA_UTILITIES_ROOT=$CONTAINER_CARMA_UTILITIES_ROOT
+  --env CARMA_SCRIPT_ROOT=$CONTAINER_CARMA_SCRIPT_ROOT
+  --env CARMA_DOCKER_ROOT=$CONTAINER_CARMA_DOCKER_ROOT
+  --env PATH_ADDITIONS=$CONTAINER_PATH_ADDITIONS
+  "
+
+DOCKER_BUILD_ENV="
+  --build-arg CARMA_INSTALL_ROOT=$CONTAINER_CARMA_INSTALL_ROOT
+  --build-arg CARMA_UTILITIES_ROOT=$CONTAINER_CARMA_UTILITIES_ROOT
+  --build-arg CARMA_SCRIPT_ROOT=$CONTAINER_CARMA_SCRIPT_ROOT
+  --build-arg CARMA_DOCKER_ROOT=$CONTAINER_CARMA_DOCKER_ROOT
+  --build-arg PATH_ADDITIONS=$CONTAINER_PATH_ADDITIONS
+  "
+
+
+
+
+# Paths
+HOST_INSTALLATION_PACKAGE_PATH=$HOME/carma/installation-packages
+DOCKER_BUILD_SPACE=$CARMA_UTILITIES_ROOT
+
+
+
+
+
+
 # ------------------------------------------------------------------------------
-# Commands
+# Main Loop
 # ------------------------------------------------------------------------------
 
-COMMAND_LIST["build"]="Build the image."
-#COMMAND_LIST["push"]="Push the image to the global repository."
-COMMAND_LIST["sh"]="Start the container and shell into it interactively."
-COMMAND_LIST["devsh"]="Start the container, shell into it, and launch an IDE."
+main() {
 
-#COMMAND_LIST["pull"]="Pull a pre-built image."
-COMMAND_LIST["install"]="Install as a persistent service on this, or a remote, system."
-COMMAND_LIST["run"]="Run the service."
-#COMMAND_LIST["sh"]="Shell into a running container to access sub-commands to manage the system."
-#COMMAND_LIST["stop"]="Stop the service."
+  # Call the relevant operation (1:1 mapping of command:function)
+  COMMAND=$1
+  shift
+  $COMMAND $@
+
+  exit 0
+}
+
+# ------------------------------------------------------------------------------
+# Command Functions
+# ------------------------------------------------------------------------------
+
+help() {
+  printf "%s\n" "$0 <command> <args>"
+  printf "\n"
+  printf "%s\n" "$DESCRIPTION"
+  printf "\n"
+  printf "Commands:\n"
+  for COM in ${!COMMAND_LIST[@]}; do
+    printf "\t%s\t\t\t%s\n" "$COM" "${COMMAND_LIST[$COM]}"
+  done
+  printf "\n"
+}
 
 build() {
 #  DOCKER_CONTAINER_NAME=
@@ -72,45 +134,15 @@ build() {
 #  docker push
 #}
 
-sh() {
-  echo "container-management sh"
-  run
-#  docker exec ${DOCKER_VOLUME_MAPPING} -it $CONTAINER_NAME clion
-}
-
-devsh() {
-  docker stop $DOCKER_CONTAINER_NAME; docker rm $DOCKER_CONTAINER_NAME
-  sudo docker run -it \
-  -v /tmp/.X11-unix:/tmp/.X11-unix \
-  -e DISPLAY=unix$DISPLAY \
-  --entrypoint /opt/carma/voices/mw-adapters/clion-2022.3.1/bin/clion.sh \
-  $DOCKER_CONTAINER_RUN_OPTIONS \
-  $DOCKER_VOLUME_MAPPING \
-  --name $DOCKER_CONTAINER_NAME \
-  $DOCKER_CONTAINER_NAME-${DOCKER_IMAGE_NAME_APPEND_LIST[-1]}
-#  run
-#  docker exec ${DOCKER_VOLUME_MAPPING} -it $CONTAINER_NAME clion
-}
-
-#pull() {
-#  docker pull
-#}
-#
-install() {
-  # TODO Provide options to enable installation to a remote machine, or this one.
-  # TODO Reference this info for proper configuration as a systemd service: https://blog.marcnuri.com/docker-container-as-linux-system-service
-  ssh $TARGET sudo docker run -d $CONTAINER_RUN_OPTIONS $DOCKER_VOLUME_MAPPING --name $CONTAINER_NAME $IMAGE_NAME
-}
-#
 run() {
   sudo docker run $DOCKER_CONTAINER_RUN_OPTIONS $DOCKER_VOLUME_MAPPING --name $DOCKER_CONTAINER_NAME $DOCKER_CONTAINER_NAME-${DOCKER_IMAGE_NAME_APPEND_LIST[-1]}
 #  docker run ${DOCKER_VOLUME_MAPPING} $IMAGE_NAME as $CONTAINER_NAME $CONTAINER_RUN_OPTIONS
-}
-#
-#sh() {
 #  docker exec ${DOCKER_VOLUME_MAPPING} -it $CONTAINER_NAME /bin/bash
-#}
 #
-#stop() {
-#  docker stop ${DOCKER_VOLUME_MAPPING} $CONTAINER_NAME
-#}
+}
+
+# ------------------------------------------------------------------------------
+# Execute the script
+# ------------------------------------------------------------------------------
+
+main $@
