@@ -21,10 +21,9 @@ COMMAND_LIST["run"]="Run the container."
 
 # Locate this base script
 THIS_COMMAND=$(basename $BASH_SOURCE)
-CARMA_INSTALL_ROOT=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+CARMA_UTILITIES_ROOT=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/../
 
 # Global environment variables
-CARMA_UTILITIES_ROOT=$CARMA_INSTALL_ROOT/carma-utils
 CARMA_SCRIPT_ROOT=$CARMA_UTILITIES_ROOT/scripts
 CARMA_DOCKER_ROOT=$CARMA_UTILITIES_ROOT/docker
 
