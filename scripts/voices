@@ -13,63 +13,30 @@
 # Description
 DESCRIPTION="Control script for this project."
 
-# Locate this base script
-THIS_COMMAND=$(basename $BASH_SOURCE)
-CMAKE_SOURCE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-EXE_NAME=$(basename $CMAKE_SOURCE_DIR)
-
 # Define a set of commands
 declare -A COMMAND_LIST
 COMMAND_LIST["help"]="Print this help information."
 COMMAND_LIST["build"]="Build the docker image."
 COMMAND_LIST["run"]="Run the container."
 
-# build-docker parameters
-DOCKER_IMAGE_NAME=voices:latest
+# Locate this base script
+THIS_COMMAND=$(basename $BASH_SOURCE)
+CARMA_INSTALL_ROOT=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-DOCKER_RUN_OPTIONS="--entrypoint /bin/bash --rm"
-DOCKER_VOLUME_MAPPING="-v ${HOST_INSTALLATION_PACKAGE_PATH}:${HOST_INSTALLATION_PACKAGE_PATH}"
+# Global environment variables
+CARMA_UTILITIES_ROOT=$CARMA_INSTALL_ROOT/carma-utils
+CARMA_SCRIPT_ROOT=$CARMA_UTILITIES_ROOT/scripts
+CARMA_DOCKER_ROOT=$CARMA_UTILITIES_ROOT/docker
 
-DOCKER_CONTAINER_NAME=
-declare -a DOCKER_IMAGE_NAME_APPEND_LIST
-DOCKER_CONTAINER_RUN_OPTIONS=
-DOCKER_CONTAINER_ENV=
-DOCKER_BUILD_ENV=
-
-
-
-
-
-DOCKER_CONTAINER_NAME=voices-network
-
-DOCKER_CONTAINER_RUN_OPTIONS=
-
-DOCKER_CONTAINER_ENV="--env CARMA_INSTALL_ROOT=$CONTAINER_CARMA_INSTALL_ROOT
-  --env CARMA_UTILITIES_ROOT=$CONTAINER_CARMA_UTILITIES_ROOT
-  --env CARMA_SCRIPT_ROOT=$CONTAINER_CARMA_SCRIPT_ROOT
-  --env CARMA_DOCKER_ROOT=$CONTAINER_CARMA_DOCKER_ROOT
-  --env PATH_ADDITIONS=$CONTAINER_PATH_ADDITIONS
-  "
-
-DOCKER_BUILD_ENV="
-  --build-arg CARMA_INSTALL_ROOT=$CONTAINER_CARMA_INSTALL_ROOT
-  --build-arg CARMA_UTILITIES_ROOT=$CONTAINER_CARMA_UTILITIES_ROOT
-  --build-arg CARMA_SCRIPT_ROOT=$CONTAINER_CARMA_SCRIPT_ROOT
-  --build-arg CARMA_DOCKER_ROOT=$CONTAINER_CARMA_DOCKER_ROOT
-  --build-arg PATH_ADDITIONS=$CONTAINER_PATH_ADDITIONS
-  "
-
-
-
+# Docker parameters
+DOCKER_IMAGE_NAME=voices
+DOCKER_CONTAINER_NAME=voices
+DOCKER_DOCKERFILE_FULL_PATH=$CARMA_DOCKER_ROOT/$DOCKER_IMAGE_NAME/Dockerfile
+DOCKER_CONTAINER_RUN_OPTIONS="--entrypoint /bin/bash --rm"
 
 # Paths
 HOST_INSTALLATION_PACKAGE_PATH=$HOME/carma/installation-packages
 DOCKER_BUILD_SPACE=$CARMA_UTILITIES_ROOT
-
-
-
-
-
 
 # ------------------------------------------------------------------------------
 # Main Loop
@@ -102,43 +69,12 @@ help() {
 }
 
 build() {
-#  DOCKER_CONTAINER_NAME=
-#  declare -A DOCKER_IMAGE_NAME_APPEND_LIST
-#  DOCKER_CONTAINER_RUN_OPTIONS=
-
-  for DOCKER_IMAGE_APPEND_NAME in "${DOCKER_IMAGE_NAME_APPEND_LIST[@]}"
-  do
-
-    DOCKER_IMAGE_NAME=$DOCKER_CONTAINER_NAME-$DOCKER_IMAGE_APPEND_NAME
-    DOCKER_DOCKERFILE_FULL_PATH=$CARMA_DOCKER_ROOT/$DOCKER_CONTAINER_NAME/Dockerfile-$DOCKER_IMAGE_APPEND_NAME
-
-    printf "\n\n--------------------------------------------------------------------------------\n"
-    printf "Building container: $DOCKER_CONTAINER_NAME | Component image: $DOCKER_IMAGE_NAME"
-    printf "\n--------------------------------------------------------------------------------\n\n"
-
-    sudo docker build -t $DOCKER_IMAGE_NAME:latest -f $DOCKER_DOCKERFILE_FULL_PATH $DOCKER_BUILD_SPACE
-
-  done
-
-
-#  docker build $DOCKERFILE_FULL_PATH $DOCKER_IMAGE_NAME
-
-#  ENV HOST_HOST_INSTALLATION_PACKAGE_PATH=$HOME/voices-large-files
-#  ENV HOST_INSTALLATION_PACKAGE_PATH=$HOME/voices-large-files
-#  sudo docker run --rm -v HOST_HOST_INSTALLATION_PACKAGE_PATH:HOST_INSTALLATION_PACKAGE_PATH -v /Users/$INSTALL_TENA_USERNAME/$INSTALL_TENA_DIR:/home tena:v2xhub /home/Downloads/TENA-MiddlewareSDK-v6.0.8.B@Product@u2004-gcc9-64-va0b09d44.bin -i /home --auto
-#
-#  docker build ${DOCKER_VOLUME_MAPPING} --force-rm --rm -f ./Dockerfile -t tena:carla .
+  sudo docker build -t $DOCKER_IMAGE_NAME:latest -f $DOCKER_DOCKERFILE_FULL_PATH $DOCKER_BUILD_SPACE
 }
 
-#push() {
-#  docker push
-#}
-
 run() {
-  sudo docker run $DOCKER_CONTAINER_RUN_OPTIONS $DOCKER_VOLUME_MAPPING --name $DOCKER_CONTAINER_NAME $DOCKER_CONTAINER_NAME-${DOCKER_IMAGE_NAME_APPEND_LIST[-1]}
-#  docker run ${DOCKER_VOLUME_MAPPING} $IMAGE_NAME as $CONTAINER_NAME $CONTAINER_RUN_OPTIONS
-#  docker exec ${DOCKER_VOLUME_MAPPING} -it $CONTAINER_NAME /bin/bash
-#
+  sudo docker run $DOCKER_CONTAINER_RUN_OPTIONS --name $DOCKER_CONTAINER_NAME:latest $DOCKER_IMAGE_NAME:latest
+  docker exec -it $DOCKER_CONTAINER_NAME:latest /bin/bash
 }
 
 # ------------------------------------------------------------------------------
