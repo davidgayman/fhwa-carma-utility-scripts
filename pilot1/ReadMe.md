@@ -1,5 +1,46 @@
 # Pilot 1
 
+## image-specifications
+
+Component image specifications.
+
+## image-builders
+
+Meta-scripts to build the images.
+
+### Binary repository components
+
+- binaries
+  - voices
+    - network
+      - vpn
+      - tools
+    - carma-sim
+    - carma-carla integration tooling
+    - carma-platform
+    - mw
+      - adapters
+      - monitor
+      - framework
+- docker
+  - voices
+    - runners
+      - demo-2
+        - site-a
+        - site-b
+        - ...
+    - builders
+
+## nodes
+
+Scripts to configure and run each node. Requires:
+- Subset of all available images
+- Unique specification files
+
+
+
+
+
 ## Components
 
 CARLA

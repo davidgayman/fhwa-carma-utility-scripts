@@ -91,8 +91,8 @@ RUN dpkg -i --force-overwrite $DOCKER_CLIENT_BINARY_DIR/mw-monitor/TENA-Canary-v
 RUN cp -r $DOCKER_CLIENT_SOURCE_DIR/tena-cmake-package/cmake /opt/TENA/lib/
 
 # Build and install the adapters
-#RUN cd $DOCKER_CLIENT_SOURCE_DIR/tena-traffic-light-entity-generator; ./app install release
-#RUN cd $DOCKER_CLIENT_SOURCE_DIR/tena-j2735-message-adapter; ./app install release
+#RUN cd $DOCKER_CLIENT_SOURCE_DIR/tena-traffic-light-entity-generator; ./adapter install release
+#RUN cd $DOCKER_CLIENT_SOURCE_DIR/tena-j2735-message-adapter; ./adapter install release
 #/opt/carma/voices/mw-adapters/tena-traffic-light-entity-generator
 # TODO
 
