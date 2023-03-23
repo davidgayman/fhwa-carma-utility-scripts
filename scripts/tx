@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# ------------------------------------------------------------------------------
+# Constants
+# ------------------------------------------------------------------------------
+
+BIN_REPOSITORY_ROOT=http://172.31.23.99:8081/nexus/content/sites/voices-binaries
+BIN_REPOSITORY_AUTH=admin:admin123
+
+# ------------------------------------------------------------------------------
+# Process Arguments
+# ------------------------------------------------------------------------------
+
+main() {
+
+  # Call the relevant operation (1:1 mapping of command:function)
+  COMMAND=$1
+  shift
+  $COMMAND $@
+  exit 0
+}
+
+
+# ------------------------------------------------------------------------------
+# Functions
+# ------------------------------------------------------------------------------
+
+push() {
+  FILE_LOCALPATH=$1
+  FILE_REMOTE_RELATIVE_PATH=$2
+  curl -u admin:admin123 --upload-file $FILE_LOCALPATH $BIN_REPOSITORY_ROOT/$FILE_REMOTE_RELATIVE_PATH/$(basename $FILE_LOCALPATH)
+}
+
+pull() {
+  FILE_REMOTE_PATH=$1
+  FILE_LOCALPATH=$2
+  if [[ -z $FILE_LOCALPATH ]]; then
+    curl -v -u $BIN_REPOSITORY_AUTH -O $BIN_REPOSITORY_ROOT/$FILE_REMOTE_RELATIVE_PATH
+  else
+    mkdir -p $(dirname $FILE_LOCALPATH)
+    curl -u $BIN_REPOSITORY_AUTH -o $FILE_LOCALPATH $BIN_REPOSITORY_ROOT/$FILE_REMOTE_RELATIVE_PATH
+  fi
+}
+
+# ------------------------------------------------------------------------------
+# Execute the script
+# ------------------------------------------------------------------------------
+
+main $@

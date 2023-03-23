@@ -21,7 +21,7 @@ COMMAND_LIST["run"]="Run the container."
 
 # Locate this base script
 THIS_COMMAND=$(basename $BASH_SOURCE)
-CARMA_UTILITIES_ROOT=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/../
+CARMA_UTILITIES_ROOT=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/..
 
 # Global environment variables
 CARMA_SCRIPT_ROOT=$CARMA_UTILITIES_ROOT/scripts
@@ -35,7 +35,12 @@ DOCKER_CONTAINER_RUN_OPTIONS="--entrypoint /bin/bash --rm"
 
 # Paths
 HOST_INSTALLATION_PACKAGE_PATH=$HOME/carma/installation-packages
+HOST_BINARIES_PATH=$HOME/carma/binaries
 DOCKER_BUILD_SPACE=$CARMA_UTILITIES_ROOT
+
+# Binary repository management
+BIN_REPOSITORY_INSTALLATION_PACKAGES_RELATIVE_PATH=installation-packages
+BIN_REPOSITORY_BINARIES_RELATIVE_PATH=binaries
 
 # ------------------------------------------------------------------------------
 # Main Loop
@@ -67,8 +72,20 @@ help() {
   printf "\n"
 }
 
+push-binaries() {
+  find $HOST_BINARIES_PATH -type f | while read FILEPATH; do
+    tx push $FILEPATH $BIN_REPOSITORY_BINARIES_RELATIVE_PATH
+  done
+}
+
+pull-binaries() {
+  tx pull $BIN_REPOSITORY_ROOT/$BIN_REPOSITORY_BINARIES_RELATIVE_PATH $HOST_BINARIES_PATH
+}
+
 build() {
-  sudo docker build -t $DOCKER_IMAGE_NAME:latest -f $DOCKER_DOCKERFILE_FULL_PATH $DOCKER_BUILD_SPACE
+  set -x
+
+  sudo docker build -t $DOCKER_IMAGE_NAME:latest $DOCKER_BUILD_VOLUME_MAPPING -f $DOCKER_DOCKERFILE_FULL_PATH $DOCKER_BUILD_SPACE
 }
 
 run() {
