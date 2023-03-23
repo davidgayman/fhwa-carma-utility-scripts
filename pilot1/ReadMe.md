@@ -19,9 +19,6 @@ Meta-scripts to build the images.
     - carma-carla integration tooling
     - carma-platform
     - mw
-      - adapters
-      - monitor
-      - framework
 - docker
   - voices
     - runners
