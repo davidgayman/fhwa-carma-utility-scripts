@@ -38,7 +38,7 @@ Scripts to configure and run each node. Requires:
 
 
 
-## Components
+## All Components
 
 CARLA
 J2735 Message Adapter
