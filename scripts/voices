@@ -34,8 +34,9 @@ DOCKER_DOCKERFILE_FULL_PATH=$CARMA_DOCKER_ROOT/$DOCKER_IMAGE_NAME/Dockerfile
 DOCKER_CONTAINER_RUN_OPTIONS="--entrypoint /bin/bash --rm"
 
 # Paths
-HOST_INSTALLATION_PACKAGE_PATH=$HOME/carma/installation-packages
+HOST_SRC_ROOT=$HOME/code
 HOST_BINARIES_PATH=$HOME/carma/binaries
+HOST_INSTALLATION_PACKAGE_PATH=$HOME/carma/installation-packages
 DOCKER_BUILD_SPACE=$CARMA_UTILITIES_ROOT
 
 # Binary repository management
@@ -80,6 +81,56 @@ push-binaries() {
 
 pull-binaries() {
   tx pull $BIN_REPOSITORY_ROOT/$BIN_REPOSITORY_BINARIES_RELATIVE_PATH $HOST_BINARIES_PATH
+}
+
+clone() {
+  REPOSITORY_SET=$1
+  if [[ $REPOSITORY_SET == "all" || $REPOSITORY_SET == "sim" ]]; then
+    mkdir -p $HOST_SRC_ROOT/sim
+    git clone  https://github.com/usdot-fhwa-stol/carma-simulation.git  $HOST_SRC_ROOT/sim/carma-simulation
+    git clone  git@github.com:carla-simulator/carla.git  $HOST_SRC_ROOT/sim/carla
+    git clone  https://github.com/usdot-fhwa-stol/carma-carla-integration.git  $HOST_SRC_ROOT/sim/carma-carla-integration
+  fi
+  if [[ $REPOSITORY_SET == "all" || $REPOSITORY_SET == "vehicle" ]]; then
+    mkdir -p $HOST_SRC_ROOT/vehicle
+    git clone  https://github.com/usdot-fhwa-stol/carma-platform.git  $HOST_SRC_ROOT/vehicle/carma-platform
+  fi
+  if [[ $REPOSITORY_SET == "all" || $REPOSITORY_SET == "roadside" ]]; then
+    mkdir -p $HOST_SRC_ROOT/roadside
+    git clone  git@github.com:usdot-fhwa-OPS/V2X-Hub.git  $HOST_SRC_ROOT/roadside/V2X-Hub
+    git clone  git@github.com:usdot-fhwa-stol/carma-streets.git  $HOST_SRC_ROOT/roadside/carma-streets
+  fi
+  if [[ $REPOSITORY_SET == "all" || $REPOSITORY_SET == "lib" ]]; then
+    mkdir -p $HOST_SRC_ROOT/lib
+    git clone  git@github.com:usdot-fhwa-stol/carma-time-lib.git  $HOST_SRC_ROOT/lib/carma-time-lib
+    git clone  git@github.com:usdot-fhwa-stol/snmp-client.git  $HOST_SRC_ROOT/lib/snmp-client
+  fi
+  if [[ $REPOSITORY_SET == "all" || $REPOSITORY_SET == "voices" ]]; then
+    mkdir -p $HOME/tenadev
+    git clone  git@github.com:usdot-fhwa-stol/voices-poc.git  $HOME/tenadev/voices-poc
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/tena-cmake-package.git  $HOME/tenadev/tena-cmake-package
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/v2xhub-tena-spat-plugin.git  $HOME/tenadev/v2xhub-tena-spat-plugin
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/vug-threads.git  $HOME/tenadev/vug-threads
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/tena-entity-generator.git  $HOME/tenadev/tena-entity-generator
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/TA-Radar-RCC_GENOS-Video-StreamDescriptor-Subscriber-v7.2.7.git  $HOME/tenadev/TA-Radar-RCC_GENOS-Video-StreamDescriptor-Subscriber-v7.2.7
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/carla-tena-adapter.git  $HOME/tenadev/carla-tena-adapter
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/scenario-publisher.git  $HOME/tenadev/scenario-publisher
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/carma-platform-tena-adapter.git  $HOME/tenadev/carma-platform-tena-adapter
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/pcapJ2735Decoder.git  $HOME/tenadev/pcapJ2735Decoder
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/v2xhub-tena-mobility-plugin.git  $HOME/tenadev/v2xhub-tena-mobility-plugin
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/v2xhub-tena-bsm-plugin.git  $HOME/tenadev/v2xhub-tena-bsm-plugin
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/carla-scenario-adapter.git  $HOME/tenadev/carla-scenario-adapter
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/vug-udp-protocolio.git  $HOME/tenadev/vug-udp-protocolio
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/spat-adapter.git  $HOME/tenadev/spat-adapter
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/carma-platoon-test-publisher.git  $HOME/tenadev/carma-platoon-test-publisher
+    git clone  git@github.com:usdot-fhwa-stol/tena-j2735-message-adapter.git  $HOME/tenadev/tena-j2735-message-adapter
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/vug-logging.git  $HOME/tenadev/vug-logging
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/carla-traffic-light-adapter.git  $HOME/tenadev/carla-traffic-light-adapter
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/v2xhub-tena-traffic-control-plugin.git  $HOME/tenadev/v2xhub-tena-traffic-control-plugin
+    git clone  git@github.com:usdot-fhwa-stol/tena-traffic-light-entity-generator.git  $HOME/tenadev/tena-traffic-light-entity-generator
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/VUG-Signals-TrafficLight-Publisher-v7.2.7.git  $HOME/tenadev/VUG-Signals-TrafficLight-Publisher-v7.2.7
+    git clone  https://www.trmc.osd.mil/bitbucket/scm/vug/TenaBsmPlugin.git  $HOME/tenadev/TenaBsmPlugin
+  fi
 }
 
 build() {
