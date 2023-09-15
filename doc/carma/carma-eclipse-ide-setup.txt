@@ -1,5 +1,0 @@
-## Dependencies
-
-### SUMO Simulation Engine
-
-sudo add-apt-repository ppa:sumo/stablesudo apt-get updatesudo apt-get install sumo sumo-tools sumo-doc
