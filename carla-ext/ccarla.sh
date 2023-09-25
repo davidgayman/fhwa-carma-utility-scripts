@@ -70,29 +70,40 @@ mkvenv() {
   echo "[-] Configuring virtual environment: Installing requirements"
   source $VENV_ROOT/$VENV_NAME/bin/activate
 #  pip3 install --upgrade pip wheel
-#  python3 -m pip install -r requirements.txt
+  python3 -m pip install -r requirements.txt
 
 
 
-#  echo "[-] Configuring virtual environment: Installing local CARLA .egg file"
+  echo "[-] Configuring virtual environment: Installing local CARLA .egg file"
+  CARLA_EGG_FILE=$CARLA_ROOT/PythonAPI/carla/dist/carla-0.9.14-py3.7-linux-x86_64.egg
+  python3 install-egg.py $CARLA_EGG_FILE
+
 
 #  echo "Append the following to ~/.bashrc:"
 #  echo "export PYTHON_PATH=$CARLA_ROOT/PythonAPI/carla/dist/"
 
-#  CARLA_EGG_FILE=$CARLA_ROOT/PythonAPI/carla/dist/carla-0.9.14-py3.7-linux-x86_64.egg
 #  python3 -m easy_install $CARLA_EGG_FILE
 
 #  python3 setup.py install
 
 
 
-  echo "[-] Configuring virtual environment: Installing local CARLA .whl file"
-  CARLA_WHEEL_FILE=$CARLA_ROOT/PythonAPI/carla/dist/carla-0.9.14-py37-cp37-linux_x86_64.whl
-  python3 -m pip install $CARLA_WHEEL_FILE
+#  echo "[-] Configuring virtual environment: Installing local CARLA .whl file"
+#  CARLA_WHEEL_FILE=$CARLA_ROOT/PythonAPI/carla/dist/carla-0.9.14-py37-cp37-linux_x86_64.whl
+#  python3 -m pip install $CARLA_WHEEL_FILE
 
 #  echo "[-] Installing CARLA dependencies"
 #  pip3 install --upgrade pip wheel
 #  pip3 install carla==0.9.5
+
+
+
+#  # Start CARLA
+#  import carla
+#  python3 ~/carla/PythonAPI/util/config.py --no-rendering
+
+
+
 
   deactivate
 }
@@ -109,13 +120,17 @@ set-rendering-level() {
 }
 
 start-carla() {
-  if [ -z "$1" ]; then
-    $CARLA_ROOT/CarlaUE4.sh
-  else
-    set-carla-rendering.sh $1
-  fi
-  #$CARLA_ROOT/CarlaUE4.sh -opengl -carla-server -carla-no-window
-#  $CARLA_ROOT/CarlaUE4.sh -carla-server -carla-no-graphics -opengl -ResX 1280 -ResY 720 -benchmark -fps 120
+
+  $CARLA_ROOT/CarlaUE4.sh -carla-server -carla-no-graphics -opengl -ResX 1280 -ResY 720 -benchmark -fps 120
+
+
+#  if [ -z "$1" ]; then
+#    $CARLA_ROOT/CarlaUE4.sh
+#  else
+#    set-carla-rendering.sh $1
+#  fi
+#  #$CARLA_ROOT/CarlaUE4.sh -opengl -carla-server -carla-no-window
+##  $CARLA_ROOT/CarlaUE4.sh -carla-server -carla-no-graphics -opengl -ResX 1280 -ResY 720 -benchmark -fps 120
 }
 
 print_help() {
