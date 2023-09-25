@@ -121,8 +121,8 @@ set-rendering-level() {
 
 start-carla() {
 
-  $CARLA_ROOT/CarlaUE4.sh -carla-server -carla-no-graphics -opengl -ResX 1280 -ResY 720 -benchmark -fps 120
-
+  $CARLA_ROOT/CarlaUE4.sh -carla-server -ResX 200 -ResY 100 -fps 10 -RenderOffscreen
+  #python3 -m config.py -m "Town04"  # Changes map
 
 #  if [ -z "$1" ]; then
 #    $CARLA_ROOT/CarlaUE4.sh
