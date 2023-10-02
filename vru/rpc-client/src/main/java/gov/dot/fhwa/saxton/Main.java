@@ -24,15 +24,10 @@ public class Main {
 
         // Specify sensor parameters
         int infrastructureID = 0;
-        int sensorID = 0;
+        int sensorID = 7;
         List<Double> location = Arrays.asList(1.0, 2.0, 3.0);
         List<Double> rotation = Arrays.asList(0.0, 0.0, 0.0);
-        params = new Object[] {
-                "sensor_config_file.yaml", "noise_model_config_file.yaml",
-                0.5,
-                infrastructureID, sensorID,
-                location, rotation, -1
-        };
+        params = new Object[]{"config/simulated_sensor_config.yaml", "config/noise_model_config.yaml", 0.5, infrastructureID, sensorID, location, rotation, -1};
 
         System.out.println();
 
@@ -40,11 +35,10 @@ public class Main {
         execute("create_simulated_semantic_lidar_sensor", params);
 
         // Retrieve sensor
-
-
+        execute("get_simulated_sensor", new Object[]{infrastructureID, sensorID});
 
         // Get detected objects
-        execute("get_detected_objects", new Object[] {1, 2});
+        execute("get_detected_objects", new Object[]{infrastructureID, sensorID});
 
     }
 
