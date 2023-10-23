@@ -6,6 +6,8 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws XmlRpcException, MalformedURLException {
@@ -14,9 +16,18 @@ public class Main {
         XmlRpcClient client = new XmlRpcClient();
         client.setConfig(config);
 
-        Object[] params = new Object[]{new String("Hello world!")};
+        String result = (String) client.execute("get_detected_objects_json", new ArrayList<Object>());
 
-        String result = (String) client.execute("test.echo", params);
+//        Object[] params = new Object[]{new String("Hello world!")};
+//        String result = (String) client.execute("test.echo", params);
+
+        System.out.println(result);
+
+
+        result = (String) client.execute("get_detected_objects_json", new ArrayList<Object>());
+        System.out.println(result);
+
+        result = (String) client.execute("get_detected_objects_json", new ArrayList<Object>());
         System.out.println(result);
     }
 }
