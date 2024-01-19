@@ -135,7 +135,6 @@ clone() {
 
 build() {
   set -x
-
   sudo docker build -t $DOCKER_IMAGE_NAME:latest $DOCKER_BUILD_VOLUME_MAPPING -f $DOCKER_DOCKERFILE_FULL_PATH $DOCKER_BUILD_SPACE
 }
 

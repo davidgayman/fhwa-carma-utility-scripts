@@ -1,16 +1,18 @@
 #!/bin/bash
 source ${CARMA_SCRIPT_ROOT}/scripts-base/carma-bashbase
 
+# ------------------------------------------------------------------------------
+# Description
+# ------------------------------------------------------------------------------
+
+# Middleware management tool.
+
+
 SUBCOMMAND_LIST += [
   "em"                  "Execution manager."
   "monitoring-tools"    "Tools used to monitor the MW layer."
   "adapters"            "Adapters which translate data between the MW and CARMA components."
 ]
-
-
-
-
-
 
 install() {
 
@@ -39,8 +41,6 @@ install() {
 
 #  cp * ${TENA_HOME}/lib  # Copy custom TENA libraries to system
 #  cp tena-cmake-package ${TENA_HOME}/lib
-
-
 
 #      Intelligently selects which layer to interface with and uses relevant script.
 #
@@ -77,7 +77,3 @@ start() {
     -listenEndpoints ${TENA_LISTEN_ENDPOINT_IP}:${TENA_LISTEN_ENDPOINT_PORT} \
     -multicastProperties ${TENA_MULTICAST_ENDPOINT_IP}:${TENA_MULTICAST_ENDPOINT_PORT}
 }
-
-
-
-

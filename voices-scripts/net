@@ -129,20 +129,20 @@ icmp-ping-test() {
 #    print(f"ssh carma@{dst} 'iperf -s'")
 #    print(f"ssh carma@{src} 'iperf -c {dst}'")
 #
-#  andrew="192.168.0.230"
-#  archak="192.168.0.62"
-#  cheng="192.168.50.227"
+#  system1="192.168.x.y"
+#  system2="192.168.x.y"
+#  system3="192.168.x.y"
 #
-#  david="192.168.50.241"
-#  david_ghost="192.168.0.137"
+#  system4="192.168.x.y"
+#  system4_ghost="192.168.x.y"
 #
-#  print_pairing_commands(andrew, archak)
-#  print_pairing_commands(andrew, cheng)
-#  print_pairing_commands(archak, cheng)
+#  print_pairing_commands(system1, system2)
+#  print_pairing_commands(system1, system3)
+#  print_pairing_commands(system2, system3)
 #
-#  print_pairing_commands(david, cheng)
-#  print_pairing_commands(david, archak)
-#  print_pairing_commands(david, david_ghost)
+#  print_pairing_commands(system4, system3)
+#  print_pairing_commands(system4, system2)
+#  print_pairing_commands(system4, system4_ghost)
 #
 #  _PYTHON_SCRIPT
 #  )

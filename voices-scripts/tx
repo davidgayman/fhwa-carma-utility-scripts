@@ -1,11 +1,17 @@
 #!/bin/bash
 
 # ------------------------------------------------------------------------------
+# Description
+# ------------------------------------------------------------------------------
+
+# Transfer files using curl with automated password authentication.
+
+# ------------------------------------------------------------------------------
 # Constants
 # ------------------------------------------------------------------------------
 
-BIN_REPOSITORY_ROOT=http://172.31.23.99:8081/nexus/content/sites/voices-binaries
-BIN_REPOSITORY_AUTH=admin:admin123
+BIN_REPOSITORY_ROOT=host
+BIN_REPOSITORY_AUTH=user:password
 
 # ------------------------------------------------------------------------------
 # Process Arguments
@@ -28,7 +34,7 @@ main() {
 push() {
   FILE_LOCALPATH=$1
   FILE_REMOTE_RELATIVE_PATH=$2
-  curl -u admin:admin123 --upload-file $FILE_LOCALPATH $BIN_REPOSITORY_ROOT/$FILE_REMOTE_RELATIVE_PATH/$(basename $FILE_LOCALPATH)
+  curl -u $BIN_REPOSITORY_AUTH --upload-file $FILE_LOCALPATH $BIN_REPOSITORY_ROOT/$FILE_REMOTE_RELATIVE_PATH/$(basename $FILE_LOCALPATH)
 }
 
 pull() {
