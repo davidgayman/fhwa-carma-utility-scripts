@@ -41,9 +41,6 @@ int main() {
             new VUG::Track::BSM::Subscription( pruneExpiredStateChange ) );
     bsmSubscription->addObserver(bsmAlertingObserver);
 
-
-
-
 //    When you're sending you store a X.
 //    When you're receiving you store a proxy.
 

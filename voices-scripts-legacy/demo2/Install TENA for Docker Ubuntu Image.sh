@@ -22,5 +22,3 @@ sudo docker run --rm -v /Users/$INSTALL_TENA_USERNAME/Downloads:/home/Downloads 
 
 unset INSTALL_TENA_USERNAME
 unset INSTALL_TENA_DIR
-
-

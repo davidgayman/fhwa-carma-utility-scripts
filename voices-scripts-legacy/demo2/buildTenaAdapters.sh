@@ -1,11 +1,6 @@
 #!/bin/bash
 
-##############################
-#	TODO
-# 	- make a general build container for most apps instead of using CARLA build container
-# 
-# 
-# 
+#	TODO  make a general build container for most apps instead of using CARLA build container
 
 
 username=$(whoami)

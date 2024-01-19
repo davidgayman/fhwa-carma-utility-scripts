@@ -12,13 +12,11 @@ carma start all
 
 docker pull usdotfhwastol/carma-carla-integration:latest
 
-
 # Run CARMA Sim
 cd ~/voices-poc/scripts/run_scripts/demo1/constructive_node
 ./runCarmaSim.sh
 cd ~/voices-poc/scripts/carla_python_scripts
 python3 set_time_mode.py
-
 
 # Adapters
 Build each adapter
@@ -31,6 +29,3 @@ cd ~/voices-poc/scripts/run_scripts/demo1/constructive_node
 ./runCarlaAdapter.sh
 cd ~/voices-poc/scripts/run_scripts/demo1/constructive_node
 ./runCarmaPlatformAdapter.sh
-
-
-
